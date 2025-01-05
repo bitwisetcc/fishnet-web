@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "ms-vscode-remote.remote-containers",
+    "editorconfig.editorconfig",
+    "github.codespaces",
+    "eamodio.gitlens",
+    "visualstudioexptteam.vscodeintellicode",
+    "ms-vsliveshare.vsliveshare",
+    "mongodb.mongodb-vscode",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "rangav.vscode-thunder-client",
+    "meganrogge.template-string-converter"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "liveshare.launcherClient": "visualStudioCode",
+  "javascript.format.semicolons": "insert",
+  "javascript.preferences.quoteStyle": "double",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "git.enableSmartCommit": true,
+  "git.openAfterClone": "always",
+}
