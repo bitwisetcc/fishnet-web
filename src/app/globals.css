@@ -1,21 +1,181 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
 }
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+button.secondary {
+  @apply relative inline-flex items-center justify-center gap-x-1.5 overflow-hidden rounded-md border border-stone-300 bg-slate-100 px-3 py-1.5 text-sm text-stone-800 shadow-md outline-none transition-colors hover:bg-slate-200 focus:bg-slate-200 active:bg-slate-200 disabled:bg-slate-200 lg:w-fit;
+}
+
+button.large {
+  @apply bg-stone-800 text-stone-100 shadow-sm;
+}
+
+button.action {
+  @apply w-full rounded-md border border-stone-700 bg-accent/90 px-10 py-2 text-stone-100 shadow-md hover:bg-accent transition-colors duration-200;
+}
+
+ul.product-description {
+  @apply flex flex-col gap-4;
+}
+
+ul.product-description li * {
+  @apply text-sm text-stone-800;
+}
+
+ul.product-description li h4 {
+  @apply font-semibold text-stone-900;
+}
+
+form .field {
+  @apply relative flex w-full;
+}
+
+form .field label {
+  @apply absolute top-3 mx-3 text-sm text-stone-500 transition-all;
+}
+
+form .field input {
+  @apply w-full rounded-md border border-stone-300 px-3 py-2 pt-4 text-sm shadow-sm focus:border-stone-500 focus:ring-stone-500;
+}
+
+form input:not([type="radio"]):required ~ label::after {
+  @apply text-zinc-600 content-['*'];
+}
+
+form ul.radio-list {
+  @apply flex flex-col gap-2;
+}
+
+form ul.radio-list li {
+  @apply flex w-full gap-3 rounded-lg border border-stone-300 px-10 py-4 shadow-sm;
+}
+
+.login-bg {
+  --s: 30px; /* control the size*/
+  --c1: #cbf3f0;
+  --c2: #2ec4b6;
+
+  --_s: 37.5% 12.5% at 62.5%;
+  --_g: 34% 99%, #0000 101%;
+  --g1: radial-gradient(var(--_s) 100%, #0000 32%, var(--c1) var(--_g));
+  --g2: radial-gradient(var(--_s) 0, #0000 32%, var(--c1) var(--_g));
+  --g3: radial-gradient(var(--_s) 100%, #0000 32%, var(--c2) var(--_g));
+  --g4: radial-gradient(var(--_s) 0, #0000 32%, var(--c2) var(--_g));
+  background:
+    var(--g1),
+    var(--g2) 0 calc(3 * var(--s)),
+    var(--g3) var(--s) calc(3 * var(--s)),
+    var(--g4) var(--s) calc(6 * var(--s)),
+    var(--g1) calc(2 * var(--s)) calc(6 * var(--s)),
+    var(--g2) calc(2 * var(--s)) calc(9 * var(--s)),
+    var(--g3) calc(3 * var(--s)) calc(9 * var(--s)),
+    var(--g4) calc(3 * var(--s)) 0,
+    repeating-linear-gradient(var(--c1) 0 25%, var(--c2) 0 50%);
+  background-size: calc(4 * var(--s)) calc(12 * var(--s));
+}
+
+/* for footer on main page */
+.section-footer {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  overflow: hidden;
+}
+
+.section-footer .wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: url(/static/wave.png);
+  background-size: 1000px 100px;
+}
+
+.section-footer .wave.wave1 {
+  animation: animate 30s linear infinite;
+  z-index: 1000;
+  opacity: 1;
+  animation-delay: 0s;
+  bottom: 0;
+}
+
+.section-footer .wave.wave2 {
+  animation: animate2 15s linear infinite;
+  z-index: 999;
+  opacity: 0.5;
+  animation-delay: -5s;
+  bottom: 10px;
+}
+
+.section-footer .wave.wave3 {
+  animation: animate2 15s linear infinite;
+  z-index: 998;
+  opacity: 0.2;
+  animation-delay: -2s;
+  bottom: 15;
+}
+
+.section-footer .wave.wave4 {
+  animation: animate2 15s linear infinite;
+  z-index: 997;
+  opacity: 0.7;
+  animation-delay: -5s;
+  bottom: 20px;
+}
+
+@keyframes animate 
+{
+  0%
+  {
+    background-position-x: 0;
+  }
+  100%
+  {
+    background-position-x: 1000px;
+  }
+}
+
+@keyframes animate2 
+{
+  0%
+  {
+    background-position-x: 0;
+  }
+  100%
+  {
+    background-position-x: -1000px;
+  }
+}
+
