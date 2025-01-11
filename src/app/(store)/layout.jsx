@@ -6,8 +6,8 @@ import Footer from "@/app/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "FishNet Store",
-  description: "Sistema de gerenciamento de vendas de peixes ornamentais.",
+  title: "FishNet",
+  description: "E-commerce de peixes ornamentais.",
 };
 
 export default function RootLayout({ children }) {

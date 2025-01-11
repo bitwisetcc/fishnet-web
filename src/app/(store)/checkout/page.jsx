@@ -8,7 +8,7 @@ import { API_URL, getProductById } from "@/app/lib/query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ChecloutPage() {
+export default function CheckoutPage() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {

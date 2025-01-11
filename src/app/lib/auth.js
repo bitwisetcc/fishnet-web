@@ -1,13 +1,15 @@
 import { useRouter } from "next/navigation";
 import { API_URL } from "./query";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { ProfileContext } from "./stores";
+
+const STAFF_ROLES = ["admin", "staff"];
 
 export function logout() {
   localStorage.removeItem("token");
   window.location.reload();
 }
 
-//Conexão onde retorna o erro pelo console da API
 export async function login(email, password) {
   try {
     const res = await fetch(`${API_URL}/auth/login`, {
@@ -22,14 +24,38 @@ export async function login(email, password) {
       throw new Error(`Erro na API: ${res.status}`);
     }
 
-    const data = await res.json();
-    const { token } = data;
+    const { token, role } = await res.json();
 
-    if (!token) throw new Error("Credenciais inválidas");
+    if (token === undefined) throw Error("Credenciais inválidas");
+    if (!STAFF_ROLES.includes(role)) throw Error("Cargo inválido");
 
     localStorage.setItem("token", token);
     console.log("Autenticação completa");
   } catch (error) {
     console.error("Erro durante o login:", error);
   }
+}
+
+export function useAuth(setter = null, staffOnly = false) {
+  const router = useRouter();
+
+  const setProfile = useContext(ProfileContext);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token === null) {
+      router.push("/login");
+      return () => {};
+    }
+
+    fetch(`${API_URL}/auth/check`, { headers: { Authorization: token } })
+      .then((res) => res.json())
+      .then((data) => {
+        if (staffOnly && !allowed_roles.includes(data.role))
+          router.push("/login?error=role");
+        setProfile(data);
+        if (setter !== null) setter(data);
+      })
+      .catch(() => router.push("/login"));
+  }, [router, setProfile, setter]);
 }
