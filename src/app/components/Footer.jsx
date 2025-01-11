@@ -20,7 +20,7 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex justify-center items-center">
               <img
-                src="/static/logo2.png"
+                src="/static/logo/white.png"
                 alt="Logo FishNet"
                 className="size-56 brightness-[96.5%] bg-transparent"
               />
@@ -44,28 +44,28 @@ export default function Footer() {
           <div className="flex justify-center space-x-5 pt-4 pb-2">
             <a href="//www.instagram.com">
               <img
-                src="/static/igIcon.png"
+                src="/static/icons/instagram.png"
                 alt="Instagram Icon"
                 className="size-10 brightness-[96.5%] bg-transparent"
               />
             </a>
             <a href="//www.whatsapp.com">
               <img
-                src="/static/wppIcon.png"
+                src="/static/icons/whatsapp.png"
                 alt="Whatsapp Icon"
                 className="size-10 brightness-[96.5%] bg-transparent"
               />
             </a>
             <a href="//www.facebook.com">
               <img
-                src="/static/fbIcon.png"
+                src="/static/icons/facebook.png"
                 alt="Facebook Icon"
                 className="size-10 brightness-[96.5%] bg-transparent"
               />
             </a>
             <a href="//youtube.com">
               <img
-                src="/static/ytIcon.png"
+                src="/static/icons/youtube.png"
                 alt="Youtube Icon"
                 className="size-10 brightness-[96.5%] bg-transparent"
               />

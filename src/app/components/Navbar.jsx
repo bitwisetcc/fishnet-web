@@ -88,7 +88,7 @@ export default function Nav() {
               className="flex items-center gap-3 text-sm text-golden-fish font-semibold hover:text-yellow-600 duration-150"
             >
               <Image
-                src="/static/logo.jpg"
+                src="/static/logo/blue-white-bg.jpg"
                 alt="Logo da FishNet"
                 width={32}
                 height={32}

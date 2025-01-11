@@ -46,9 +46,9 @@ export default function Page() {
 
 function SlideShow() {
   const images = [
-    "static/banner-lançamentos.png",
-    "static/banner-betta.png",
-    "static/banner-tetra.png",
+    "static/banners/lançamentos.png",
+    "static/banners/betta.png",
+    "static/banners/tetra.png",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
