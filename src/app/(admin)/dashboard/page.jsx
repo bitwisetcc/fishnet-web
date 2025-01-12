@@ -11,9 +11,10 @@ import { TitleContext } from "@/app/lib/stores";
 import Link from "next/link";
 
 export default function Dashboard() {
+  const setTitle = useContext(TitleContext);
+
   Chart.register(LinearScale);
   Chart.register(...registerables);
-  const setTitle = useContext(TitleContext);
 
   const [relatorio, setRelatorio] = useState({
     total_vendas: 0,
@@ -27,54 +28,7 @@ export default function Dashboard() {
   const [annualData, setAnnualData] = useState({ labels: [], data: [] });
 
   useEffect(() => {
-    let temp = new Date();
-    let minDate = new Date(0);
-    let maxDate = new Date(); // right now
-
-    switch (timeFilter) {
-      case "Hoje": {
-        temp.setHours(0, 0, 0, 0);
-        minDate = temp;
-        break;
-      }
-      case "Ontem": {
-        temp.setHours(0, 0, 0, 0);
-        maxDate = temp;
-        temp.setDate(temp.getDate() - 1);
-        minDate = temp;
-        break;
-      }
-      case "Semana": {
-        temp.setDate(temp.getDate() - 7);
-        minDate = temp;
-        break;
-      }
-      case "Mês": {
-        temp.setMonth(temp.getMonth() - 1);
-        minDate = temp;
-        break;
-      }
-      case "Mês Passado": {
-        temp.setHours(0, 0, 0, 0);
-        temp.setDate(1);
-        maxDate = temp;
-        temp.setMonth(temp.getMonth() - 1);
-        minDate = temp;
-        break;
-      }
-      case "Ano": {
-        minDate = new Date(temp.getFullYear(), 0, 0);
-        break;
-      }
-      case "Ano passado": {
-        minDate = new Date(temp.getFullYear() - 1, 0, 0);
-        maxDate = new Date(temp.getFullYear(), 0, 0);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
+    const [minDate, maxDate] = parseDatePerspective(timeFilter);
 
     const fetchData = async (url, setState) => {
       try {
@@ -98,14 +52,6 @@ export default function Dashboard() {
       .then((data) => setTopSales(data.match))
       .catch(console.error);
 
-    fetchAnnualSalesData();
-  }, [timeFilter]);
-
-  useEffect(() => {
-    setTitle("Dashboard");
-  }, [setTitle]);
-
-  const fetchAnnualSalesData = () => {
     fetch(`${API_URL}/dash/annual-sales`)
       .then((response) => {
         if (!response.ok) {
@@ -119,7 +65,11 @@ export default function Dashboard() {
         setAnnualData({ labels, data: salesData });
       })
       .catch((error) => console.error("Erro ao buscar dados anuais:", error));
-  };
+  }, [timeFilter]);
+
+  useEffect(() => {
+    setTitle("Dashboard");
+  }, [setTitle]);
 
   const chartData = {
     labels: annualData.labels,
@@ -228,7 +178,7 @@ export default function Dashboard() {
             ]}
           />
         </header>
-        <ClientList
+        <TopOrders
           clients={topSales}
           avatarApi="https://api.dicebear.com/9.x/adventurer/svg?seed=$flip=true&radius=50&earringsProbability=25&glassesProbability=25&backgroundColor=d1d4f9,b6e3f4,c0aede,ffd5dc"
           statusMessages={["Pendente", "Finalizado", "Cancelado"]}
@@ -248,7 +198,7 @@ export default function Dashboard() {
 
 function DashboardPanel({ title, content, description, children }) {
   return (
-    <div className="dashboard-panel rounded-lg bg-blue-100 p-4 shadow-md">
+    <div className="dashboard-panel rounded-lg bg-slate-100 p-4 shadow-md">
       <h2 className="mb-2 text-xl font-semibold">{title}</h2>
       {content && <span className="text-2xl md:text-3xl">{content}</span>}
       {description && <p className="text-sm">{description}</p>}
@@ -273,7 +223,7 @@ function Shortcut({ label, download, fileName }) {
       download={fileName}
     >
       {label}
-      <LinkIcon className="hover:text-yellow-light inline size-4 cursor-pointer text-black transition-colors duration-300" />
+      <LinkIcon className="inline size-4 cursor-pointer text-black transition-colors duration-300 hover:text-yellow-light" />
     </a>
   );
 }
@@ -299,12 +249,12 @@ function FilterDropdown({ selectedFilter, onFilterChange, filters }) {
   );
 }
 
-function ClientList({ clients: orders, avatarApi, statusMessages }) {
+function TopOrders({ clients: orders, avatarApi, statusMessages }) {
   return (
     <ul className="grid gap-4">
       {orders.map((order) => (
         <li
-          className="bg-branco-perolado col-span-7 grid flex-1 grid-cols-subgrid content-center items-center gap-x-3 rounded-lg border border-slate-400 px-4 py-2 pr-8 shadow"
+          className="col-span-7 grid flex-1 grid-cols-subgrid content-center items-center gap-x-3 rounded-lg border border-slate-400 bg-branco-perolado px-4 py-2 pr-8 shadow"
           key={order._id}
         >
           <img
@@ -316,10 +266,10 @@ function ClientList({ clients: orders, avatarApi, statusMessages }) {
           <span>{order.customer.name}</span>
           <span>{price(order.total)}</span>
           <span>{new Date(order.date).toLocaleDateString("pt-BR")}</span>
-          <StatusBadge status={order.status} messages={statusMessages} />
+          <span className={`badge badge-lg ${["badge-info", "badge-success", "badge-error"][order.status]}`}>{statusMessages[order.status]}</span>
           <span className="justify-self-end">
             <Link href="/vendas">
-              <ArrowTopRightOnSquareIcon className="hover:text-yellow-light size-6 text-black" />
+              <ArrowTopRightOnSquareIcon className="size-6 text-black hover:text-yellow-light" />
             </Link>
           </span>
         </li>
@@ -328,20 +278,55 @@ function ClientList({ clients: orders, avatarApi, statusMessages }) {
   );
 }
 
-function StatusBadge({ status, messages }) {
-  const statusStyles = [
-    "bg-amber-400 text-black",
-    "bg-lime-400 text-black",
-    "bg-rose-500 text-black",
-  ];
+function parseDatePerspective(timeString) {
+  let minDate = new Date(0); // December 31, 1969
+  let maxDate = new Date(); // Right now
+  let temp = new Date();
 
-  return (
-    <div className={`flex`}>
-      <span
-        className={`rounded-lg p-1 px-2 text-sm font-semibold shadow-sm ${statusStyles[status]}`}
-      >
-        {messages[status]}
-      </span>
-    </div>
-  );
+  switch (timeString) {
+    case "Hoje": {
+      temp.setHours(0, 0, 0, 0);
+      minDate = temp;
+      break;
+    }
+    case "Ontem": {
+      temp.setHours(0, 0, 0, 0);
+      maxDate = temp;
+      temp.setDate(temp.getDate() - 1);
+      minDate = temp;
+      break;
+    }
+    case "Semana": {
+      temp.setDate(temp.getDate() - 7);
+      minDate = temp;
+      break;
+    }
+    case "Mês": {
+      temp.setMonth(temp.getMonth() - 1);
+      minDate = temp;
+      break;
+    }
+    case "Mês Passado": {
+      temp.setHours(0, 0, 0, 0);
+      temp.setDate(1);
+      maxDate = temp;
+      temp.setMonth(temp.getMonth() - 1);
+      minDate = temp;
+      break;
+    }
+    case "Ano": {
+      minDate = new Date(temp.getFullYear(), 0, 0);
+      break;
+    }
+    case "Ano passado": {
+      minDate = new Date(temp.getFullYear() - 1, 0, 0);
+      maxDate = new Date(temp.getFullYear(), 0, 0);
+      break;
+    }
+    default: {
+      break;
+    }
+  }
+
+  return [minDate, maxDate];
 }

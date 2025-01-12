@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className + " h-screen"}>
         <TitleContext.Provider value={setTitle}>
           <ProfileContext.Provider value={setProfile}>
-            <div className="bg-gray-light flex min-h-[100vh] items-stretch">
+            <div className="bg-gray-light flex min-h-[100vh] items-stretch text-stone-800">
               {escapeLayout || <NavBar />}
               <div className="flex-1">
                 {escapeLayout || <Header title={title} profile={profile} />}
