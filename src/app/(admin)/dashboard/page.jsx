@@ -4,7 +4,7 @@ import { price } from "@/app/lib/format";
 import { API_URL } from "@/app/lib/query";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { ArrowTopRightOnSquareIcon as LinkIcon } from "@heroicons/react/24/solid";
-import { Chart, registerables } from "chart.js";
+import { Chart, LinearScale, registerables } from "chart.js";
 import { useContext, useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { TitleContext } from "@/app/lib/stores";
@@ -273,10 +273,7 @@ function Shortcut({ label, download, fileName }) {
       download={fileName}
     >
       {label}
-      <LinkIcon
-        className="hover:text-yellow-light inline size-4 cursor-pointer text-black transition-colors duration-300"
-        onClick={onClick}
-      />
+      <LinkIcon className="hover:text-yellow-light inline size-4 cursor-pointer text-black transition-colors duration-300" />
     </a>
   );
 }
@@ -321,7 +318,7 @@ function ClientList({ clients: orders, avatarApi, statusMessages }) {
           <span>{new Date(order.date).toLocaleDateString("pt-BR")}</span>
           <StatusBadge status={order.status} messages={statusMessages} />
           <span className="justify-self-end">
-            <Link to="/vendas">
+            <Link href="/vendas">
               <ArrowTopRightOnSquareIcon className="hover:text-yellow-light size-6 text-black" />
             </Link>
           </span>

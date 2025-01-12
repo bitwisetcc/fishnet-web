@@ -26,7 +26,6 @@ export async function login(email, password) {
   const { token, role } = await res.json();
 
   if (token === undefined) throw Error("Credenciais inválidas");
-  if (!STAFF_ROLES.includes(role)) throw Error("Cargo inválido");
 
   localStorage.setItem("token", token);
   return role;
@@ -34,12 +33,12 @@ export async function login(email, password) {
 
 export function useAuth(setter = null, staffOnly = false) {
   const router = useRouter();
-
   const setProfile = useContext(ProfileContext);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token === null) {
+      console.log("hey");
       router.push("/login");
       return () => {};
     }
@@ -47,7 +46,10 @@ export function useAuth(setter = null, staffOnly = false) {
     fetch(`${API_URL}/auth/check`, { headers: { Authorization: token } })
       .then((res) => res.json())
       .then((data) => {
-        if (staffOnly && !allowed_roles.includes(data.role)) router.push("/");
+        if (staffOnly && !STAFF_ROLES.includes(data.role)) {
+          router.push("/");
+          return;
+        }
         setProfile(data);
         if (setter !== null) setter(data);
       })

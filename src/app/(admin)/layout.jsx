@@ -10,13 +10,8 @@ import { ProfileContext, TitleContext } from "../lib/stores";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// export const metadata = {
-//   title: "FishNet | Admin",
-//   description: "Sistema de gerenciamento de vendas de peixes ornamentais.",
-// };
-
 export default function RootLayout({ children }) {
-  useAuth(null, true);
+  // useAuth(null, false);
   
   const [title, setTitle] = useState("");
   const [profile, setProfile] = useState({ name: "", picture: "" });

@@ -3,21 +3,19 @@ import {
   HomeIcon,
   ArrowLeftStartOnRectangleIcon as LogOutIcon,
   PresentationChartLineIcon,
-  UsersIcon
+  UsersIcon,
 } from "@heroicons/react/24/solid";
-import Tippy from "@tippyjs/react";
 import Link from "next/link";
 import { FaFishFins } from "react-icons/fa6";
-import "tippy.js/dist/tippy.css";
 
 export default function NavBar() {
   return (
-    <nav className="md:flex hidden sticky flex-col justify-between items-center list-none pb-12 p-5 mr-2 h-[100vh] top-0 left-0 bg-blue-dark shadow-right-lg">
-      <ul className="list-none flex flex-col space-y-7 items-center">
+    <nav className="bg-blue-dark sticky left-0 top-0 mr-2 hidden h-[100vh] list-none flex-col items-center justify-between p-5 pb-12 md:flex">
+      <ul className="flex list-none flex-col items-center space-y-7">
         <img
-          src="/static/logo/blue-white-bg.png"
+          src="/static/logo/blue-white-bg.jpg"
           alt="Logo"
-          className="rounded-full border-2 border-slate-600 shadow-sm p-[6px] w-14 h-14"
+          className="h-14 w-14 rounded-full border-2 border-slate-600 p-[6px] shadow-sm"
         />
         <NavItem Icon={HomeIcon} text="Dashboard" url="/dashboard" />
         <NavItem Icon={FaFishFins} text="Produtos" url="/prods" />
@@ -29,16 +27,16 @@ export default function NavBar() {
       <NavItem Icon={LogOutIcon} text="Sair" url="/login" />
     </nav>
   );
-};
+}
 
 function NavItem({ Icon, text, url }) {
   return (
     <li className="only-of-type:stroke-[10px]">
-      <Tippy content={text} placement="bottom" delay={50} arrow>
+      <div className="tooltip tooltip-right" data-tip={text}>
         <Link href={url} className="flex items-center">
-          <Icon className="w-7 h-7 text-yellow-light hover:text-gray-light transition-colors duration-300" />
+          <Icon className="text-yellow-light hover:text-gray-light h-7 w-7 transition-colors duration-300" />
         </Link>
-      </Tippy>
+      </div>
     </li>
   );
 }
