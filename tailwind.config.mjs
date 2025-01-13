@@ -32,6 +32,15 @@ export default {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: false,
+    themes: [
+      {
+        fishnet: {
+          primary: "#EECF72", // golden yellow
+          secondary: "#59AED9", // light blue
+          accent: "#37cdbe",
+          neutral: "#3d4451",
+        },
+      },
+    ],
   },
 };

@@ -3,6 +3,7 @@
 import { SideBarContext } from "@/app/lib/stores";
 import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import ToggleButton from "../components/ToggleButton";
+import MoneyInput from "../components/MoneyInput";
 
 interface ProductFilters {
   environment: "fresh" | "salt";
@@ -33,7 +34,7 @@ export default function ProductsSideBar() {
   }, [filters]);
 
   return (
-    <div className="flex h-full flex-col gap-4 overflow-y-auto rounded-lg border border-slate-500 bg-slate-200 p-6 text-stone-800 sm:max-w-md md:w-[45%] md:p-8 lg:w-[25vw]">
+    <form className="flex h-full flex-col gap-4 overflow-y-auto rounded-lg border border-slate-500 bg-slate-200 p-6 text-stone-800 sm:max-w-md md:w-[45%] md:p-8 lg:w-[25vw]">
       <h2 className="mb-5 text-2xl font-semibold">Filtros</h2>
 
       <section>
@@ -79,51 +80,20 @@ export default function ProductsSideBar() {
       <section>
         <h3 className="text-lg">Valores</h3>
 
-        <label className="form-control w-full max-w-xs">
-          <div className="label">
-            <span className="label-text text-stone-700">Preço mínimo</span>
-          </div>
-          <label
-            htmlFor="nb-min-price"
-            className="input input-bordered flex w-full max-w-xs items-center gap-1 bg-transparent"
-          >
-            R$
-            <input
-              id="nb-min-price"
-              name="min-price"
-              type="number"
-              step={0.01}
-              min={0}
-              value={filters.minPrice}
-              onChange={(e) =>
-                setFilters({ ...filters, minPrice: Number(e.target.value) })
-              }
-            />
-          </label>
-        </label>
-
-        <label className="form-control w-full max-w-xs">
-          <div className="label">
-            <span className="label-text text-stone-700">Preço máximo</span>
-          </div>
-          <label
-            htmlFor="nb-max-price"
-            className="input input-bordered flex w-full max-w-xs items-center gap-1 bg-transparent"
-          >
-            R$
-            <input
-              id="nb-max-price"
-              name="max-price"
-              type="number"
-              step={0.01}
-              min={0}
-              value={filters.maxPrice}
-              onChange={(e) =>
-                setFilters({ ...filters, maxPrice: Number(e.target.value) })
-              }
-            />
-          </label>
-        </label>
+        <MoneyInput
+          label="Preço mínimo"
+          value={filters.minPrice}
+          callback={(e) =>
+            setFilters({ ...filters, minPrice: Number(e.target.value) })
+          }
+        />
+        <MoneyInput
+          label="Preço máximo"
+          value={filters.maxPrice}
+          callback={(e) =>
+            setFilters({ ...filters, maxPrice: Number(e.target.value) })
+          }
+        />
       </section>
 
       <section>
@@ -148,6 +118,15 @@ export default function ProductsSideBar() {
           callback={() => setFilters({ ...filters, behaviour: "cluster" })}
         />
       </section>
-    </div>
+
+      <section className="grid grid-cols-2 gap-2">
+        <button type="reset" className="btn btn-outline btn-error">
+          Limpar
+        </button>
+        <button type="submit" className="btn btn-primary">
+          Salvar
+        </button>
+      </section>
+    </form>
   );
 }
