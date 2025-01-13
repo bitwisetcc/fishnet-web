@@ -37,7 +37,7 @@ export default function RootLayout({ children, sidebar }) {
           <label
             htmlFor="filter-sidebar"
             aria-label="close sidebar"
-            className="drawer-overlay"
+            className="drawer-overlay bg-transparent"
           ></label>
           <div className="h-full p-4">
               <SideBarContext.Provider value={sideBarStateCouple}>
