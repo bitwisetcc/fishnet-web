@@ -21,11 +21,11 @@ export default function ProductsSideBar() {
 
   useEffect(() => {
     setFilters({
-      environment: null,
-      feeding: null,
-      behaviour: null,
-      minPrice: null,
-      maxPrice: null,
+      environment: undefined,
+      feeding: undefined,
+      behaviour: undefined,
+      minPrice: undefined,
+      maxPrice: undefined,
     });
   }, []);
 
