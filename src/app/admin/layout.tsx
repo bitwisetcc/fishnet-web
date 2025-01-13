@@ -40,11 +40,9 @@ export default function RootLayout({ children, sidebar }) {
             className="drawer-overlay"
           ></label>
           <div className="h-full p-4">
-            <ul className="menu h-full w-80 bg-base-200 p-4 text-base-content">
               <SideBarContext.Provider value={sideBarStateCouple}>
                 {sidebar}
               </SideBarContext.Provider>
-            </ul>
           </div>
         </div>
       </body>

@@ -38,7 +38,7 @@ const Header = ({ title, profile }) => {
         <MiniNav />
         <h1 className="text-3xl font-bold text-sky-950">{title}</h1>
       </div>
-      <div className="relative z-50 flex items-center gap-3">
+      <div className="relative flex items-center gap-3">
         {/* Modificação aqui: escondendo o nome em telas pequenas */}
         {profile.name && (
           <span className="hidden font-semibold text-sky-900 md:inline">
@@ -94,11 +94,11 @@ function MiniNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="relative z-20 flex list-none flex-col items-center justify-between md:hidden">
+    <nav className="relative flex list-none flex-col items-center justify-between md:hidden">
       <img
         src="/static/logo/golden.jpg"
         alt="Logo"
-        className="z-30 h-14 w-14 rounded-full border border-slate-600 p-[6px] shadow-sm"
+        className="h-14 w-14 rounded-full border border-slate-600 p-[6px] shadow-sm"
         onClick={() => setOpen(!open)}
       />
       <ul

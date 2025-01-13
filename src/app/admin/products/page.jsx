@@ -20,7 +20,6 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import InsightsDialog from "./components/InsightsDialog";
 import ListingProducts from "./components/ListingProducts";
 import RegisterProductDialog from "./components/RegisterProductDialog";
-import FilterSidebar from "./components/FilterSidebar";
 
 export default function ListagemProduto() {
   const setTitle = useContext(TitleContext);

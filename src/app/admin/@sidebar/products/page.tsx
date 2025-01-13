@@ -1,14 +1,13 @@
 "use client";
 
 import { SideBarContext } from "@/app/lib/stores";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
-  ChangeEvent,
   Dispatch,
   SetStateAction,
   useContext,
-  useEffect,
+  useEffect
 } from "react";
+import ToggleButton from "../components/ToggleButton";
 
 interface ProductFilters {
   environment: "fresh" | "salt";
@@ -24,28 +23,36 @@ export default function ProductsSideBar() {
     Dispatch<SetStateAction<ProductFilters>>,
   ] = useContext(SideBarContext);
 
-  function update(e: ChangeEvent<HTMLInputElement>) {
-    filters[e.target.name] = e.target.value;
-    setFilters(filters);
-  }
+  useEffect(() => {
+    setFilters({
+      environment: null,
+      feeding: null,
+      behaviour: null,
+      minPrice: null,
+      maxPrice: null,
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(filters);
+  }, [filters]);
 
   return (
-    <div className="mx-0 flex h-full w-full flex-col overflow-y-auto rounded-lg border p-6 sm:max-w-md md:w-[45%] md:p-8 lg:w-[25%]">
-      <h2>Filtros</h2>
+    <div className="flex h-full flex-col overflow-y-auto rounded-lg border border-slate-500 bg-slate-300 p-6 text-stone-800 sm:max-w-md md:w-[45%] md:p-8 lg:w-[25vw]">
+      <h2 className="mb-5 text-2xl font-semibold">Filtros</h2>
+
       <section>
-        <input
-          type="radio"
-          name="environment"
-          id="env-fresh"
-          value="fresh"
-          onChange={update}
+        <h3 className="text-lg">Ambiente</h3>
+
+        <ToggleButton
+          title="🌿 Água doce"
+          checked={filters.environment == "fresh"}
+          callback={() => setFilters({ ...filters, environment: "fresh" })}
         />
-        <input
-          type="radio"
-          name="environment"
-          id="env-fresh"
-          value="salt"
-          onChange={update}
+        <ToggleButton
+          title="🌊 Água salgada"
+          checked={filters.environment == "salt"}
+          callback={() => setFilters({ ...filters, environment: "salt" })}
         />
       </section>
 
