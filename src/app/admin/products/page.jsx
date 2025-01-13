@@ -2,7 +2,6 @@
 
 import { getProductByFilter } from "@/app/lib/query";
 import { TitleContext } from "@/app/lib/stores";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import {
   ArrowDownIcon,
   ArrowsUpDownIcon,
@@ -16,260 +15,18 @@ import {
   PencilSquareIcon,
   PlusCircleIcon,
   PrinterIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useCallback, useContext, useEffect, useState } from "react";
 import InsightsDialog from "./components/InsightsDialog";
 import ListingProducts from "./components/ListingProducts";
 import RegisterProductDialog from "./components/RegisterProductDialog";
-
-function FilterProduct({ open, setOpen, onSaveFilters }) {
-  const [selectedEnvironment, setSelectedEnvironment] = useState(null);
-  const [selectedDiet, setSelectedDiet] = useState(null);
-  const [selectedBehavior, setSelectedBehavior] = useState(null);
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-
-  const clearFilters = () => {
-    setSelectedEnvironment(null);
-    setSelectedDiet(null);
-    setSelectedBehavior(null);
-    setMinPrice("");
-    setMaxPrice("");
-  };
-
-  const [filters, setFilters] = useState({
-    feeding: "",
-    tankSize: "",
-    // Add other filters as needed
-  });
-
-  const handleSave = () => {
-    const selectedFilters = {
-      ...filters,
-      tags: selectedEnvironment,
-      feeding: selectedDiet,
-      behavior: selectedBehavior,
-      minPrice: minPrice ? Number(minPrice) : undefined, // Convert to number or undefined if empty
-      maxPrice: maxPrice ? Number(maxPrice) : undefined, // Convert to number or undefined if empty
-    };
-    onSaveFilters(selectedFilters); // Sends the filters to `ListagemProduto`
-    setOpen(false); // Closes the modal
-  };
-
-  return (
-    <Dialog
-      open={open}
-      onClose={() => setOpen(false)}
-      className="relative z-50"
-    >
-      <div className="fixed inset-0 flex items-center justify-center md:justify-end bg-[#11223a]/80 p-4">
-        <DialogPanel className="h-full w-full sm:max-w-md md:w-[45%] lg:w-[25%] mx-0 space-y-6 rounded-lg border border-[#cbd5e1] shadow-xl bg-[#f7f9fb] p-6 md:p-8 text-[#11223a] overflow-y-auto">
-          <header className="relative flex justify-between items-center mb-6">
-            <DialogTitle className="font-bold text-lg sm:text-xl md:text-2xl">
-              Filtros
-            </DialogTitle>
-            <button
-              onClick={() => setOpen(false)}
-              className="text-[#11223a] hover:text-[#c7ae5d]"
-            >
-              <XMarkIcon className="h-6 w-6" />
-            </button>
-          </header>
-
-          {/* Seção de Filtros */}
-          <section className="space-y-6">
-            {/* Filtro de Ambiente */}
-            <div>
-              <h3 className="font-semibold text-md sm:text-lg text-[#c7ae5d]">
-                Ambiente
-              </h3>
-              <div className="flex flex-col gap-2">
-                <button
-                  className={`w-full p-2 border rounded-md ${
-                    selectedEnvironment === "fresh"
-                      ? "bg-blue-100 border-blue-500"
-                      : "border-[#cbd5e1] hover:bg-[#cbd5e1]"
-                  } text-[#11223a]`}
-                  onClick={() =>
-                    setSelectedEnvironment(
-                      selectedEnvironment === "fresh" ? null : "fresh"
-                    )
-                  }
-                >
-                  🌿 Água doce
-                </button>
-                <button
-                  className={`w-full p-2 border rounded-md ${
-                    selectedEnvironment === "salt"
-                      ? "bg-blue-100 border-blue-500"
-                      : "border-[#cbd5e1] hover:bg-[#cbd5e1]"
-                  } text-[#11223a]`}
-                  onClick={() =>
-                    setSelectedEnvironment(
-                      selectedEnvironment === "salt" ? null : "salt"
-                    )
-                  }
-                >
-                  🌊 Água salgada
-                </button>
-              </div>
-            </div>
-
-            {/* Filtro de Alimentação */}
-            <div>
-              <h3 className="font-semibold text-md sm:text-lg text-[#c7ae5d]">
-                Alimentação
-              </h3>
-              <div className="flex flex-col gap-2">
-                <button
-                  className={`w-full p-2 border rounded-md ${
-                    selectedDiet === "herb"
-                      ? "bg-blue-100 border-blue-500"
-                      : "border-[#cbd5e1] hover:bg-[#cbd5e1]"
-                  } text-[#11223a]`}
-                  onClick={() =>
-                    setSelectedDiet(selectedDiet === "herb" ? null : "herb")
-                  }
-                >
-                  🌱 Herbívoro
-                </button>
-                <button
-                  className={`w-full p-2 border rounded-md ${
-                    selectedDiet === "omni"
-                      ? "bg-blue-100 border-blue-500"
-                      : "border-[#cbd5e1] hover:bg-[#cbd5e1]"
-                  } text-[#11223a]`}
-                  onClick={() =>
-                    setSelectedDiet(selectedDiet === "omni" ? null : "omni")
-                  }
-                >
-                  🍽️ Onívoro
-                </button>
-                <button
-                  className={`w-full p-2 border rounded-md ${
-                    selectedDiet === "carn"
-                      ? "bg-blue-100 border-blue-500"
-                      : "border-[#cbd5e1] hover:bg-[#cbd5e1]"
-                  } text-[#11223a]`}
-                  onClick={() =>
-                    setSelectedDiet(selectedDiet === "carn" ? null : "carn")
-                  }
-                >
-                  🍖 Carnívoro
-                </button>
-              </div>
-            </div>
-
-            {/* Filtro de Valores */}
-            <div>
-              <h3 className="font-semibold text-md sm:text-lg text-[#c7ae5d]">
-                Valores
-              </h3>
-              <label htmlFor="min-price" className="block mb-1 text-[#11223a]">
-                Preço mínimo: R$
-              </label>
-              <input
-                type="number"
-                id="min-price"
-                min={0}
-                step={10}
-                value={minPrice}
-                onChange={(e) => setMinPrice(e.target.value)}
-                className="w-full rounded-md border p-2 border-[#cbd5e1] focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#f7f9fb] text-[#11223a]"
-              />
-              <label
-                htmlFor="max-price"
-                className="block mb-1 mt-4 text-[#11223a]"
-              >
-                Preço máximo: R$
-              </label>
-              <input
-                type="number"
-                id="max-price"
-                min={0}
-                step={10}
-                value={maxPrice}
-                onChange={(e) => setMaxPrice(e.target.value)}
-                className="w-full rounded-md border p-2 border-[#cbd5e1] focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#f7f9fb] text-[#11223a]"
-              />
-            </div>
-
-            {/* Filtro de Comportamento Social */}
-            <div>
-              <h3 className="font-semibold text-md sm:text-lg text-[#c7ae5d]">
-                Comportamento Social
-              </h3>
-              <div className="flex flex-col gap-2">
-                <button
-                  className={`w-full p-2 border rounded-md ${
-                    selectedBehavior === "peaceful"
-                      ? "bg-blue-100 border-blue-500"
-                      : "border-[#cbd5e1] hover:bg-[#cbd5e1]"
-                  } text-[#11223a]`}
-                  onClick={() =>
-                    setSelectedBehavior(
-                      selectedBehavior === "peaceful" ? null : "peaceful"
-                    )
-                  }
-                >
-                  🕊️ Pacífico
-                </button>
-                <button
-                  className={`w-full p-2 border rounded-md ${
-                    selectedBehavior === "aggressive"
-                      ? "bg-blue-100 border-blue-500"
-                      : "border-[#cbd5e1] hover:bg-[#cbd5e1]"
-                  } text-[#11223a]`}
-                  onClick={() =>
-                    setSelectedBehavior(
-                      selectedBehavior === "aggressive" ? null : "aggressive"
-                    )
-                  }
-                >
-                  🦈 Agressivo
-                </button>
-                <button
-                  className={`w-full p-2 border rounded-md ${
-                    selectedBehavior === "schooling"
-                      ? "bg-blue-100 border-blue-500"
-                      : "border-[#cbd5e1] hover:bg-[#cbd5e1]"
-                  } text-[#11223a]`}
-                  onClick={() =>
-                    setSelectedBehavior(
-                      selectedBehavior === "schooling" ? null : "schooling"
-                    )
-                  }
-                >
-                  🐟 Em cardume
-                </button>
-              </div>
-            </div>
-
-            {/* Botões de Ação */}
-            <div className="flex gap-4 mt-6">
-              <button
-                className="flex-1 rounded bg-[#c7ae5d] px-4 py-2 text-white hover:bg-[#11223a]"
-                onClick={handleSave}
-              >
-                Salvar
-              </button>
-              <button
-                className="flex-1 rounded px-4 py-2 border border-red-600 hover:bg-red-600 text-red-600 hover:text-white"
-                onClick={clearFilters}
-              >
-                Limpar
-              </button>
-            </div>
-          </section>
-        </DialogPanel>
-      </div>
-    </Dialog>
-  );
-}
+import FilterSidebar from "./components/FilterSidebar";
 
 export default function ListagemProduto() {
   const setTitle = useContext(TitleContext);
+
+  useEffect(() => setTitle("Produtos"), [setTitle]);
+
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -283,8 +40,6 @@ export default function ListagemProduto() {
 
   const [insightsDialog, setInsightsDialog] = useState(false);
   const [insightsId, setInsightsId] = useState(null);
-
-  useEffect(() => setTitle("Produtos"), [setTitle]);
 
   const loadProducts = useCallback(async () => {
     const activeFilters = { ...filters, page: currentPage };
@@ -360,17 +115,16 @@ export default function ListagemProduto() {
   };
 
   if (loading) {
-    return (
-      <span className="loading loading-dots loading-lg"></span>
-    );
+    return <span className="loading loading-dots loading-lg"></span>;
   }
 
   return (
     <>
+      <label htmlFor="filter-sidebar" className="drawer-button btn btn-primary">Open drawer</label>
       <ListingProducts onFilterChange={handleFilterChange}>
-        <div className="flex flex-col md:flex-row md:items-center gap-2">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center">
           {/* Barra de pesquisa */}
-          <span className="flex items-center text-slate-600 flex-1 gap-1 border p-2 rounded-lg relative mb-2 md:mb-0">
+          <span className="relative mb-2 flex flex-1 items-center gap-1 rounded-lg border p-2 text-slate-600 md:mb-0">
             <MagnifyingGlassIcon className="size-6" />
             <input
               type="search"
@@ -387,7 +141,7 @@ export default function ListagemProduto() {
           {/* Botões */}
           <div className="flex gap-2">
             <button
-              className="flex items-center gap-2 relative group cursor-pointer"
+              className="group relative flex cursor-pointer items-center gap-2"
               onClick={() => setFilteringOpen(true)}
             >
               <FunnelIcon className="size-6" />
@@ -407,77 +161,76 @@ export default function ListagemProduto() {
         </div>
       </ListingProducts>
 
-      <div className="md:overflow-x-hidden overflow-x-scroll">
+      <div className="overflow-x-scroll md:overflow-x-hidden">
         <article className="grid">
-          <header className="listing col-span-7 flex items-center bg-slate-100 p-2 rounded-lg shadow-md">
-            <span className="font-semibold flex items-center justify-center">
+          <header className="listing col-span-7 flex items-center rounded-lg bg-slate-100 p-2 shadow-md">
+            <span className="flex items-center justify-center font-semibold">
               Foto
             </span>
             <span
-              className="font-semibold cursor-pointer"
+              className="cursor-pointer font-semibold"
               onClick={handleSortByName}
             >
-              <span className="bg-slate-400/30 p-1 rounded flex items-center justify-start w-max">
+              <span className="flex w-max items-center justify-start rounded bg-slate-400/30 p-1">
                 Nome{" "}
                 {sortOrder === "asc" ? (
-                  <ArrowDownIcon className="size-4 ml-1 mt-1" />
+                  <ArrowDownIcon className="ml-1 mt-1 size-4" />
                 ) : sortOrder === "desc" ? (
-                  <ArrowUpIcon className="size-4 ml-1 mt-1" />
+                  <ArrowUpIcon className="ml-1 mt-1 size-4" />
                 ) : (
-                  <ArrowsUpDownIcon className="size-4 ml-1 mt-1" />
+                  <ArrowsUpDownIcon className="ml-1 mt-1 size-4" />
                 )}
               </span>
             </span>
             <span
-              className="font-semibold flex items-center justify-center cursor-pointer"
+              className="flex cursor-pointer items-center justify-center font-semibold"
               onClick={handleSortByPrice}
             >
-              <span className="bg-slate-400/30 p-1 rounded flex items-center justify-start w-max">
-                
-              Preço{" "}
-              {priceOrder === "asc" ? (
-                <ArrowDownIcon className="size-4 ml-1 mt-1" />
-              ) : priceOrder === "desc" ? (
-                <ArrowUpIcon className="size-4 ml-1 mt-1" />
-              ) : (
-                <ArrowsUpDownIcon className="size-4 ml-1 mt-1" />
-              )}
+              <span className="flex w-max items-center justify-start rounded bg-slate-400/30 p-1">
+                Preço{" "}
+                {priceOrder === "asc" ? (
+                  <ArrowDownIcon className="ml-1 mt-1 size-4" />
+                ) : priceOrder === "desc" ? (
+                  <ArrowUpIcon className="ml-1 mt-1 size-4" />
+                ) : (
+                  <ArrowsUpDownIcon className="ml-1 mt-1 size-4" />
+                )}
               </span>
             </span>
-            <span className="font-semibold flex items-center justify-center">
+            <span className="flex items-center justify-center font-semibold">
               Estoque
             </span>
-            <span className="font-semibold flex items-center justify-center">
+            <span className="flex items-center justify-center font-semibold">
               Insights
             </span>
-            <span className="font-semibold flex items-center justify-center">
+            <span className="flex items-center justify-center font-semibold">
               Ações
             </span>
-            <span className="font-semibold flex items-center justify-center">
+            <span className="flex items-center justify-center font-semibold">
               Catálogo
             </span>
           </header>
 
           {filteredProducts.map((product) => (
             <section
-              className="grid grid-cols-subgrid col-span-7 p-2 my-2 rounded-lg hover:bg-slate-50 transition-colors duration-200 items-center"
+              className="col-span-7 my-2 grid grid-cols-subgrid items-center rounded-lg p-2 transition-colors duration-200 hover:bg-slate-50"
               key={product.id}
             >
               <span className="flex items-center justify-center truncate">
                 <img
                   src={product.pictures[0]}
                   alt={product.name}
-                  className="w-16 h-16 object-cover rounded"
+                  className="h-16 w-16 rounded object-cover"
                 />
               </span>
-              <span className="text-nowrap truncate flex flex-col items-start">
+              <span className="flex flex-col items-start truncate text-nowrap">
                 <span>{product.name}</span>
                 <span className="text-sm text-gray-500">{product.id}</span>
               </span>
-              <span className="font-semibold flex items-center justify-center">
+              <span className="flex items-center justify-center font-semibold">
                 R${product.price.toFixed(2)}
               </span>
-              <span className="text-nowrap flex items-center justify-center">
+              <span className="flex items-center justify-center text-nowrap">
                 {product.quantity}
               </span>
               <button
@@ -487,21 +240,21 @@ export default function ListagemProduto() {
                   setInsightsDialog(true);
                 }}
               >
-                <ArrowTopRightOnSquareIcon className="size-5 text-slate-800 hover:text-yellow-light cursor-pointer transition-colors duration-200" />
+                <ArrowTopRightOnSquareIcon className="size-5 cursor-pointer text-slate-800 transition-colors duration-200 hover:text-yellow-light" />
               </button>
-              <span className="flex gap-2 items-center justify-center">
-                <button className="hover:text-yellow-light transition-colors duration-200">
+              <span className="flex items-center justify-center gap-2">
+                <button className="transition-colors duration-200 hover:text-yellow-light">
                   <LockClosedIcon className="size-5" />
                 </button>
-                <button className="hover:text-yellow-light transition-colors duration-200">
+                <button className="transition-colors duration-200 hover:text-yellow-light">
                   <PencilSquareIcon className="size-5" />
                 </button>
               </span>
               <span className="flex items-center justify-center">
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" className="sr-only peer" />
-                  <div className="w-10 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-600 transition duration-200"></div>
-                  <span className="absolute w-4 h-4 bg-white rounded-full shadow transition duration-200 peer-checked:translate-x-5 peer-checked:shadow-lg"></span>
+                <label className="relative inline-flex cursor-pointer items-center">
+                  <input type="checkbox" className="peer sr-only" />
+                  <div className="peer h-6 w-10 rounded-full bg-gray-200 transition duration-200 peer-checked:bg-green-600"></div>
+                  <span className="absolute h-4 w-4 rounded-full bg-white shadow transition duration-200 peer-checked:translate-x-5 peer-checked:shadow-lg"></span>
                 </label>
               </span>
             </section>
@@ -509,7 +262,7 @@ export default function ListagemProduto() {
         </article>
       </div>
 
-      <footer className="flex justify-between my-8 items-center">
+      <footer className="my-8 flex items-center justify-between">
         <button
           className="action"
           onClick={handlePreviousPage}
@@ -536,11 +289,6 @@ export default function ListagemProduto() {
         open={insightsDialog}
         setOpen={setInsightsDialog}
         id={insightsId}
-      />
-      <FilterProduct
-        open={filteringOpen}
-        setOpen={setFilteringOpen}
-        onSaveFilters={handleSaveFilters}
       />
     </>
   );
