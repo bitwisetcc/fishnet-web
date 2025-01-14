@@ -1,25 +1,21 @@
 "use client";
 
 import { SideBarContext, TitleContext } from "@/app/lib/stores";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  FunnelIcon,
-  MagnifyingGlassIcon,
-  PlusCircleIcon,
-  PrinterIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import throttle from "lodash.throttle";
 import {
   Dispatch,
   SetStateAction,
+  useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
-import ListingProducts from "./components/ListingProducts";
 import ProductLine from "./components/ProductLine";
-import { getProducts, ProductFilters, ProductOrdering } from "./lib";
 import SearchPanel from "./components/SearchPanel";
+import { getProducts, ProductFilters, ProductOrdering } from "./lib";
+import debounce from "lodash.debounce";
 
 export default function ListagemProduto() {
   const setTitle = useContext(TitleContext);
@@ -52,15 +48,23 @@ export default function ListagemProduto() {
     });
   }, []);
 
-  useEffect(() => {
-    getProducts(filters, ordering, search, pageIndex).then(
-      ({ products, pageCount }) => {
-        setProducts(products);
-        setPageCount(pageCount);
-      },
-    );
+  const load = useCallback(
+    throttle((filters, ordering, search, pageIndex) => {
+      getProducts(filters, ordering, search, pageIndex).then(
+        ({ products, pageCount }) => {
+          setProducts(products);
+          setPageCount(pageCount);
+          console.log(search);
+        },
+      );
 
-    setLoading(false);
+      setLoading(false);
+    }, 1500),
+    [],
+  );
+
+  useEffect(() => {
+    load(filters, ordering, search, pageIndex);
   }, [filters, ordering, search, pageIndex]);
 
   const handleNextPage = () => {
