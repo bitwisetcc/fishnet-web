@@ -1,7 +1,6 @@
 "use client";
 
 import { SideBarContext, TitleContext } from "@/app/lib/stores";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import throttle from "lodash.throttle";
 import {
   Dispatch,
@@ -12,9 +11,9 @@ import {
   useState,
 } from "react";
 import OrderingIcon from "./components/OrderingIcon";
+import PaginationController from "./components/PaginationController";
 import ProductLine from "./components/ProductLine";
 import SearchPanel from "./components/SearchPanel";
-import InsightsModal from "./components/InsightsModal";
 import {
   cycleNameOrdering,
   cyclePriceOrdering,
@@ -22,13 +21,15 @@ import {
   ProductFilters,
   ProductOrdering,
 } from "./lib";
-import PaginationController from "./components/PaginationController";
+import InsightsModal from "./modals/InsightsModal";
+import RegisterProductModal from "./modals/RegisterModal";
 
 export default function ListagemProduto() {
   const setTitle = useContext(TitleContext);
   useEffect(() => setTitle("Produtos"), [setTitle]);
 
   const [loading, setLoading] = useState(true);
+  const [insightId, setInsightId] = useState<string>(null);
 
   const [search, setSearch] = useState("");
   const [pageIndex, setPageIndex] = useState(1);
@@ -45,8 +46,6 @@ export default function ListagemProduto() {
 
   const [products, setProducts] = useState([]);
   const [pageCount, setPageCount] = useState(0);
-
-  const [insightId, setInsightId] = useState<string>(null);
 
   useEffect(() => {
     setFilters({
@@ -81,6 +80,11 @@ export default function ListagemProduto() {
       <SearchPanel
         search={search}
         callback={(e) => setSearch(e.target.value)}
+        openRegister={() =>
+          (
+            document.getElementById("md-register-prod") as HTMLDialogElement
+          ).showModal()
+        }
       />
 
       <PaginationController
@@ -151,7 +155,7 @@ export default function ListagemProduto() {
 
       <InsightsModal id={insightId} />
 
-      {/* <RegisterProductDialog open={registerOpen} setOpen={setRegisterOpen} /> */}
+      <RegisterProductModal />
     </>
   );
 }

@@ -4,17 +4,22 @@ import {
   PlusCircleIcon,
   PrinterIcon,
 } from "@heroicons/react/24/outline";
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler, Dispatch } from "react";
 
 interface SearchPanelProps {
   search: string;
   callback: ChangeEventHandler<HTMLInputElement>;
+  openRegister: Dispatch<void>;
 }
 
-export default function SearchPanel({ search, callback }: SearchPanelProps) {
+export default function SearchPanel({
+  search,
+  callback,
+  openRegister
+}: SearchPanelProps) {
   return (
-    <header className="mb-4 rounded-xl border border-slate-400 bg-base-200 p-4 shadow flex gap-2">
-      <label className="input input-bordered input-ghost flex items-center gap-2 transition-colors duration-300 flex-1">
+    <header className="mb-4 flex gap-2 rounded-xl border border-slate-400 bg-base-200 p-4 shadow">
+      <label className="input input-bordered input-ghost flex flex-1 items-center gap-2 transition-colors duration-300">
         <MagnifyingGlassIcon className="size-5" />
         <input
           type="search"
@@ -33,7 +38,7 @@ export default function SearchPanel({ search, callback }: SearchPanelProps) {
         Filtros
       </label>
 
-      <button className="btn btn-secondary">
+      <button className="btn btn-secondary" onClick={() => openRegister()}>
         <PlusCircleIcon className="size-5" />
         <span className="hidden md:inline">Adicionar</span>
       </button>

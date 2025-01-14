@@ -31,7 +31,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/admin/@sidebar/products/page.tsx"  ],
+, "src/app/admin/@sidebar/products/page.tsx", "src/app/admin/products/modals/RegisterModal.tsx"  ],
   "exclude": [
     "node_modules"
   ]
