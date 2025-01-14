@@ -11,47 +11,37 @@ interface SearchPanelProps {
   callback: ChangeEventHandler<HTMLInputElement>;
 }
 
-// TODO URGENT: add throttling
 export default function SearchPanel({ search, callback }: SearchPanelProps) {
   return (
-    <header className="relative mb-3 rounded-lg bg-white bg-opacity-85 p-5 shadow-sm">
-      <div className="block">
-        <div className="flex flex-col gap-2 md:flex-row md:items-center">
-          <span className="relative mb-2 flex flex-1 items-center gap-1 rounded-lg border p-2 text-slate-600 md:mb-0">
-            <MagnifyingGlassIcon className="size-6" />
-            <input
-              type="search"
-              name="search"
-              id="search"
-              placeholder="Produto ou ID"
-              maxLength={100}
-              value={search}
-              onChange={callback}
-              className="w-full placeholder:text-slate-500 focus:outline-none"
-            />
-          </span>
+    <header className="mb-4 rounded-xl border border-slate-400 bg-base-200 p-4 shadow flex gap-2">
+      <label className="input input-bordered input-ghost flex items-center gap-2 transition-colors duration-300 flex-1">
+        <MagnifyingGlassIcon className="size-5" />
+        <input
+          type="search"
+          name="search"
+          id="search"
+          placeholder="Título do produto"
+          maxLength={100}
+          value={search}
+          onChange={callback}
+          className="w-full grow placeholder:text-slate-500"
+        />
+      </label>
 
-          <div className="flex gap-2">
-            <label
-              htmlFor="filter-sidebar"
-              className="drawer-button flex cursor-pointer gap-2"
-            >
-              <FunnelIcon className="size-6" />
-              Filtros
-            </label>
+      <label htmlFor="sidebar-toggle" className="btn btn-ghost drawer-button">
+        <FunnelIcon className="size-5" />
+        Filtros
+      </label>
 
-            <button className="action" onClick={() => true}>
-              <PlusCircleIcon className="size-5" />
-              <span className="hidden md:inline">Adicionar</span>
-            </button>
+      <button className="btn btn-secondary">
+        <PlusCircleIcon className="size-5" />
+        <span className="hidden md:inline">Adicionar</span>
+      </button>
 
-            <button className="action">
-              <PrinterIcon className="size-5" />
-              <span className="hidden md:inline">Imprimir</span>
-            </button>
-          </div>
-        </div>
-      </div>
+      <button className="btn btn-secondary">
+        <PrinterIcon className="size-5" />
+        <span className="hidden md:inline">Imprimir</span>
+      </button>
     </header>
   );
 }

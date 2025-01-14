@@ -22,6 +22,7 @@ import {
   ProductFilters,
   ProductOrdering,
 } from "./lib";
+import PaginationController from "./components/PaginationController";
 
 export default function ListagemProduto() {
   const setTitle = useContext(TitleContext);
@@ -59,12 +60,12 @@ export default function ListagemProduto() {
 
   const load = useCallback(
     throttle((filters, ordering, search, pageIndex) => {
-      getProducts(filters, ordering, search, pageIndex).then(
-        ({ products, pageCount }) => {
+      getProducts(filters, ordering, search, pageIndex)
+        .then(({ products, pageCount }) => {
           setProducts(products);
           setPageCount(pageCount);
-        },
-      ).then(() => setLoading(false));
+        })
+        .then(() => setLoading(false));
     }, 1500),
     [],
   );
@@ -73,14 +74,6 @@ export default function ListagemProduto() {
     load(filters, ordering, search, pageIndex);
   }, [filters, ordering, search, pageIndex]);
 
-  const handleNextPage = () => {
-    setPageIndex((prev) => prev + 1);
-  };
-
-  const handlePreviousPage = () => {
-    if (pageIndex > 1) setPageIndex((prev) => prev - 1);
-  };
-
   if (loading) return <span className="loading loading-dots loading-lg"></span>;
 
   return (
@@ -88,6 +81,12 @@ export default function ListagemProduto() {
       <SearchPanel
         search={search}
         callback={(e) => setSearch(e.target.value)}
+      />
+
+      <PaginationController
+        pageCount={pageCount}
+        pageIndex={pageIndex}
+        cursor={setPageIndex}
       />
 
       <article className="overflow-x-auto">
@@ -144,27 +143,11 @@ export default function ListagemProduto() {
         </table>
       </article>
 
-      <footer className="my-8 flex items-center justify-between">
-        <button
-          className="action"
-          onClick={handlePreviousPage}
-          disabled={pageIndex === 1}
-        >
-          <ChevronLeftIcon className="size-5" />
-          Anterior
-        </button>
-        <span>
-          {pageIndex} / {pageCount}{" "}
-        </span>
-        <button
-          className="action"
-          onClick={handleNextPage}
-          disabled={pageIndex === pageCount}
-        >
-          Próxima
-          <ChevronRightIcon className="size-5" />
-        </button>
-      </footer>
+      <PaginationController
+        pageCount={pageCount}
+        pageIndex={pageIndex}
+        cursor={setPageIndex}
+      />
 
       <InsightsModal id={insightId} />
 

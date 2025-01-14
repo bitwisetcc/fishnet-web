@@ -43,7 +43,7 @@ export default function ProductLine({ product, setId }) {
       </td>
 
       <td>
-        <input type="checkbox" name="lock" id="ch-lock" className="toggle checked:toggle-error" style={{"--tglbg": "whitesmoke"} as React.CSSProperties} />
+        <input type="checkbox" name="lock" id="ch-lock" className="toggle checked:toggle-error" />
       </td>
     </tr>
   );

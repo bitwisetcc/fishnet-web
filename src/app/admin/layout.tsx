@@ -38,16 +38,17 @@ export default function RootLayout({ children, sidebar }) {
 
             <div className="drawer-content">
               <SideBarContext.Provider value={sideBarStateCouple}>
-                <div className="drawer drawer-end min-h-full bg-gray-light text-stone-800 *:h-max">
+                <div className="drawer drawer-end min-h-full bg-base-100 text-stone-800">
                   <input
                     type="checkbox"
                     id="sidebar-toggle"
                     className="drawer-toggle"
                   />
 
-                  <Header title={title} profile={profile} />
-
-                  <main className="mx-7">{children}</main>
+                  <div className="drawer-content *:h-max">
+                    <Header title={title} profile={profile} />
+                    <main className="mx-7 mb-5">{children}</main>
+                  </div>
 
                   <div className="drawer-side">
                     <label
