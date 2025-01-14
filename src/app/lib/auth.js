@@ -38,7 +38,6 @@ export function useAuth(setter = null, staffOnly = false) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token === null) {
-      console.log("hey");
       router.push("/login");
       return () => {};
     }

@@ -6,25 +6,19 @@ import ToggleButton from "../components/ToggleButton";
 import MoneyInput from "../components/MoneyInput";
 import { ProductFilters } from "../../products/lib";
 
+const nullFilters: ProductFilters = {
+  environment: undefined,
+  feeding: undefined,
+  behaviour: undefined,
+  minPrice: undefined,
+  maxPrice: undefined,
+};
+
 export default function ProductsSideBar() {
   let [filters, setFilters]: [
     ProductFilters,
     Dispatch<SetStateAction<ProductFilters>>,
   ] = useContext(SideBarContext);
-
-  useEffect(() => {
-    setFilters({
-      environment: undefined,
-      feeding: undefined,
-      behaviour: undefined,
-      minPrice: undefined,
-      maxPrice: undefined,
-    });
-  }, []);
-
-  useEffect(() => {
-    console.log(filters);
-  }, [filters]);
 
   return (
     <form className="flex h-full flex-col gap-4 overflow-y-auto rounded-lg border border-slate-500 bg-slate-200 p-6 text-stone-800 sm:max-w-md md:w-[45%] md:p-8 lg:w-[25vw]">
@@ -112,14 +106,13 @@ export default function ProductsSideBar() {
         />
       </section>
 
-      <section className="grid grid-cols-2 gap-2">
-        <button type="reset" className="btn btn-outline btn-error">
-          Limpar
-        </button>
-        <button type="submit" className="btn btn-primary">
-          Salvar
-        </button>
-      </section>
+      <button
+        type="reset"
+        className="btn btn-outline btn-error btn-wide"
+        onClick={() => setFilters(nullFilters)}
+      >
+        Limpar
+      </button>
     </form>
   );
 }

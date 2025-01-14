@@ -19,32 +19,34 @@ export default function RootLayout({ children, sidebar }) {
   return (
     <html lang="pt-br">
       <body className={`${inter.className} drawer drawer-end h-screen`}>
-        <input type="checkbox" id="filter-sidebar" className="drawer-toggle" />
+        <SideBarContext.Provider value={sideBarStateCouple}>
+          <input
+            type="checkbox"
+            id="filter-sidebar"
+            className="drawer-toggle"
+          />
 
-        <div className="drawer-content flex min-h-[100vh] items-stretch bg-gray-light text-stone-800">
-          <TitleContext.Provider value={setTitle}>
-            <ProfileContext.Provider value={setProfile}>
-              <NavBar />
-              <div className="flex-1">
-                <Header title={title} profile={profile} />
-                <main className="mx-7">{children}</main>
-              </div>
-            </ProfileContext.Provider>
-          </TitleContext.Provider>
-        </div>
-
-        <div className="drawer-side">
-          <label
-            htmlFor="filter-sidebar"
-            aria-label="close sidebar"
-            className="drawer-overlay bg-transparent"
-          ></label>
-          <div className="h-full p-4">
-              <SideBarContext.Provider value={sideBarStateCouple}>
-                {sidebar}
-              </SideBarContext.Provider>
+          <div className="drawer-content flex min-h-[100vh] items-stretch bg-gray-light text-stone-800">
+            <TitleContext.Provider value={setTitle}>
+              <ProfileContext.Provider value={setProfile}>
+                <NavBar />
+                <div className="flex-1">
+                  <Header title={title} profile={profile} />
+                  <main className="mx-7">{children}</main>
+                </div>
+              </ProfileContext.Provider>
+            </TitleContext.Provider>
           </div>
-        </div>
+
+          <div className="drawer-side">
+            <label
+              htmlFor="filter-sidebar"
+              aria-label="close sidebar"
+              className="drawer-overlay bg-transparent"
+            ></label>
+            <div className="h-full p-4">{sidebar}</div>
+          </div>
+        </SideBarContext.Provider>
       </body>
     </html>
   );

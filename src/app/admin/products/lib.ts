@@ -40,8 +40,8 @@ export async function getProducts(
 
   const query: QueryParameters = {
     ...filters,
-    minPrice: filters.minPrice.toString(),
-    maxPrice: filters.maxPrice.toString(),
+    minPrice: filters.minPrice?.toString(),
+    maxPrice: filters.maxPrice?.toString(),
     tags: filters.environment,
     page: page.toString(),
     ordem,
