@@ -1,6 +1,8 @@
-import { useEffect, useId, useRef, useState } from "react";
 import { API_URL } from "@/app/lib/query";
-import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useRef } from "react";
+import FormField from "../../components/form/InputField";
+import SelectField from "../../components/form/SelectField";
 
 export default function RegisterProductModal() {
   const dialogRef = useRef(null);
@@ -29,7 +31,7 @@ export default function RegisterProductModal() {
 
   return (
     <dialog ref={dialogRef} className="modal" id="md-register-prod">
-      <div className="modal-box">
+      <div className="modal-box w-2/3 max-w-3xl bg-base-100">
         <form method="dialog">
           <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">
             <XMarkIcon className="size-5 text-slate-800" />
@@ -37,7 +39,7 @@ export default function RegisterProductModal() {
         </form>
 
         <form
-          className="space-y-2 overflow-y-scroll px-2 text-stone-900"
+          className="grid grid-cols-2 gap-2 overflow-y-scroll px-2 text-stone-900"
           onSubmit={submit}
         >
           <FormField name="name" label="Nome" placeholder="Glowlight Tetra" />
@@ -55,64 +57,56 @@ export default function RegisterProductModal() {
 
           <FormField name="origin" label="Origem" placeholder="Guiana" />
 
-          <div className="field">
-            <label htmlFor="txt-ph">pH ideal do ambiente</label>
-            <input
-              type="text"
-              name="ph"
-              id="txt-ph"
-              placeholder="5.5 - 7.5"
-              maxLength={12}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="txt-ph">Tamanho mínimo de tanque</label>
-            <input
-              type="text"
-              name="tank_size"
-              id="txt-tank_size"
-              placeholder="6L"
-              maxLength={7}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="txt-temperature">Temperatura</label>
-            <input
-              type="text"
-              name="temperature"
-              id="txt-temperature"
-              placeholder="15 - 20ºC"
-              maxLength={12}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="txt-expectancy">Expectativa de vida (meses)</label>
-            <input
-              type="number"
-              name="expectancy"
-              id="txt-expectancy"
-              placeholder="30"
-              max={1000}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="size">Tamanho Adulto</label>
-            <input
-              type="text"
-              name="size"
-              id="size"
-              placeholder="1.3 - 2.5cm"
-              maxLength={20}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="sl-feeding">Alimentação</label>
-            <select name="feeding" id="sl-feeding">
-              <option value="Omnivorous">Onívoro</option>
-              <option value="Carnivorous">Carnívoro</option>
-              <option value="Herbivorous">Herbívoro</option>
-            </select>
-          </div>
+          <FormField
+            name="ph"
+            label="pH ideal"
+            placeholder="6.5"
+            type="number"
+            unit="pH"
+          />
+
+          <FormField
+            name="tankSize"
+            label="Tamanho mínimo do tanque"
+            placeholder="8"
+            type="number"
+            unit="L"
+          />
+
+          <FormField
+            name="temperature"
+            label="Temperatura ideal"
+            placeholder="17.5"
+            type="number"
+            unit="ºC"
+          />
+
+          <FormField
+            name="lifeSpan"
+            label="Expectativa de vida"
+            placeholder="18"
+            type="number"
+            unit="meses"
+          />
+
+          <FormField
+            name="size"
+            label="Tamanho adulto"
+            placeholder="4.5"
+            type="number"
+            unit="cm"
+          />
+
+          <SelectField
+            name="feeding"
+            label="Alimentação"
+            options={{
+              herbivorous: "Herbívoro",
+              carnivorous: "Carnívoro",
+              omnivorous: "Onívoro",
+            }}
+          />
+
           <div className="field">
             <label htmlFor="txt-desc">Descrição</label>
             <input type="text" name="desc" id="txt-desc" />
@@ -161,24 +155,5 @@ export default function RegisterProductModal() {
         </form>
       </div>
     </dialog>
-  );
-}
-
-function FormField({ name, label, placeholder, type = "text" }) {
-  const id = useId();
-
-  return (
-    <label className="form-control w-full" htmlFor={id}>
-      <div className="label pb-1">
-        <span className="label-text text-stone-600">{label}</span>
-      </div>
-      <input
-        type={type}
-        placeholder={placeholder}
-        name={name}
-        className="input input-sm input-bordered w-full max-w-xs bg-slate-100"
-        id={id}
-      />
-    </label>
   );
 }

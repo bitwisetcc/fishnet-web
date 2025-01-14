@@ -7,9 +7,9 @@ import {
   UsersIcon,
   WrenchScrewdriverIcon,
 } from "@heroicons/react/24/solid";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FaFishFins } from "react-icons/fa6";
-import Link from "next/link";
 
 const Header = ({ title, profile }) => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
@@ -125,7 +125,7 @@ function NavItem({ Icon, url }) {
   return (
     <li>
       <Link href={url}>
-        <Icon className="hover:text-yellow-light h-7 w-7 text-slate-700 transition-colors duration-300" />
+        <Icon className="h-7 w-7 text-slate-700 transition-colors duration-300 hover:text-yellow-light" />
       </Link>
     </li>
   );

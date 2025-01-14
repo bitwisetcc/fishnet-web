@@ -10,8 +10,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import OrderingIcon from "./components/OrderingIcon";
-import PaginationController from "./components/PaginationController";
+import OrderingIcon from "../components/listing/OrderingIcon";
+import PaginationController from "../components/listing/PaginationController";
 import ProductLine from "./components/ProductLine";
 import SearchPanel from "./components/SearchPanel";
 import {

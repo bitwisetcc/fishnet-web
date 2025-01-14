@@ -3,8 +3,8 @@
 import "@/app/globals.css";
 import { Inter } from "next/font/google";
 import { useState } from "react";
-import Header from "../components/admin/Header";
-import NavBar from "../components/admin/NavBar";
+import Header from "./components/layout/Header";
+import NavBar from "./components/layout/NavBar";
 import { ProfileContext, SideBarContext, TitleContext } from "../lib/stores";
 
 const inter = Inter({ subsets: ["latin"] });
