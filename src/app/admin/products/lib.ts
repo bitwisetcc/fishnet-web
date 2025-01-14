@@ -50,7 +50,7 @@ export async function getProducts(
 
   for (const key in query) if (!query[key]) delete query[key];
 
-  const queryString =  new URLSearchParams(query).toString();
+  const queryString = new URLSearchParams(query).toString();
 
   try {
     const res = await fetch(`${API_URL}/prods/filtros?${queryString}`);
@@ -66,4 +66,34 @@ export async function getProducts(
     console.error(error.message);
     return { products: [], pageCount: 0 };
   }
+}
+
+export function cycleNameOrdering(ordering: ProductOrdering): ProductOrdering {
+  let updated: ProductOrdering = { price: undefined, name: "A-Z" };
+
+  switch (ordering.name) {
+    case "A-Z":
+      updated.name = "Z-A";
+      break;
+    case "Z-A":
+      updated.name = undefined;
+      break;
+  }
+
+  return updated;
+}
+
+export function cyclePriceOrdering(ordering: ProductOrdering): ProductOrdering {
+  let updated: ProductOrdering = { price: "crescente", name: undefined };
+
+  switch (ordering.price) {
+    case "crescente":
+      updated.price = "decrescente";
+      break;
+    case "decrescente":
+      updated.price = undefined;
+      break;
+  }
+
+  return updated;
 }

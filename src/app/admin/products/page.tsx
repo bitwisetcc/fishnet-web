@@ -9,13 +9,18 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
+import OrderingIcon from "./components/OrderingIcon";
 import ProductLine from "./components/ProductLine";
 import SearchPanel from "./components/SearchPanel";
-import { getProducts, ProductFilters, ProductOrdering } from "./lib";
-import debounce from "lodash.debounce";
+import {
+  cycleNameOrdering,
+  cyclePriceOrdering,
+  getProducts,
+  ProductFilters,
+  ProductOrdering,
+} from "./lib";
 
 export default function ListagemProduto() {
   const setTitle = useContext(TitleContext);
@@ -75,27 +80,6 @@ export default function ListagemProduto() {
     if (pageIndex > 1) setPageIndex((prev) => prev - 1);
   };
 
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-    setPageIndex(1);
-  };
-
-  const handleSortByName = () => {
-    // setPriceOrder("none");
-    // setCurrentPage(1);
-    // const newOrder =
-    //   sortOrder === "none" ? "asc" : sortOrder === "asc" ? "desc" : "none";
-    // setSortOrder(newOrder);
-  };
-
-  const handleSortByPrice = () => {
-    // setSortOrder("none");
-    // setCurrentPage(1);
-    // const newPriceOrder =
-    //   priceOrder === "none" ? "asc" : priceOrder === "asc" ? "desc" : "none";
-    // setPriceOrder(newPriceOrder);
-  };
-
   if (loading) return <span className="loading loading-dots loading-lg"></span>;
 
   return (
@@ -110,8 +94,38 @@ export default function ListagemProduto() {
           <thead>
             <tr className="border-y bg-transparent text-lg text-stone-600 *:border-y *:border-slate-400 *:font-medium">
               <th className="rounded-l-xl border-l">Foto</th>
-              <th onClick={handleSortByName}>Identificação</th>
-              <th onClick={handleSortByPrice}>Preço</th>
+              <th
+                onClick={() => setOrdering(cycleNameOrdering(ordering))}
+                className="cursor-pointer transition-colors hover:text-stone-800"
+              >
+                <div className="flex items-center gap-2">
+                  Identificação
+                  <OrderingIcon
+                    state={ordering.name}
+                    variants={{
+                      default: undefined,
+                      ascending: "A-Z",
+                      descending: "Z-A",
+                    }}
+                  />
+                </div>
+              </th>
+              <th
+                onClick={() => setOrdering(cyclePriceOrdering(ordering))}
+                className="cursor-pointer transition-colors hover:text-stone-800"
+              >
+                <div className="flex items-center gap-2">
+                  Preço
+                  <OrderingIcon
+                    state={ordering.price}
+                    variants={{
+                      default: undefined,
+                      ascending: "crescente",
+                      descending: "decrescente",
+                    }}
+                  />
+                </div>
+              </th>
               <th>Estoque</th>
               <th>Ações</th>
               <th className="rounded-r-xl border-r">Catálogo</th>
