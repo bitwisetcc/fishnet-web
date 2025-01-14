@@ -1,10 +1,10 @@
 "use client";
 
 import { SideBarContext } from "@/app/lib/stores";
-import { Dispatch, SetStateAction, useContext, useEffect } from "react";
-import ToggleButton from "../components/ToggleButton";
-import MoneyInput from "../components/MoneyInput";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { ProductFilters } from "../../products/lib";
+import MoneyInput from "../components/MoneyInput";
+import ToggleButton from "../components/ToggleButton";
 
 const nullFilters: ProductFilters = {
   environment: undefined,
@@ -89,8 +89,8 @@ export default function ProductsSideBar() {
         <ToggleButton
           title="🕊️ Pacífico"
           group="behaviour"
-          checked={filters.behaviour == "pacific"}
-          callback={() => setFilters({ ...filters, behaviour: "pacific" })}
+          checked={filters.behaviour == "peaceful"}
+          callback={() => setFilters({ ...filters, behaviour: "peaceful" })}
         />
         <ToggleButton
           title="🦈 Agressivo"

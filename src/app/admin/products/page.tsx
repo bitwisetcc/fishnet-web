@@ -12,16 +12,14 @@ import {
 import {
   Dispatch,
   SetStateAction,
-  useCallback,
   useContext,
   useEffect,
   useState,
 } from "react";
-import InsightsDialog from "./components/InsightsDialog";
 import ListingProducts from "./components/ListingProducts";
 import ProductLine from "./components/ProductLine";
-import RegisterProductDialog from "./components/RegisterProductDialog";
 import { getProducts, ProductFilters, ProductOrdering } from "./lib";
+import SearchPanel from "./components/SearchPanel";
 
 export default function ListagemProduto() {
   const setTitle = useContext(TitleContext);
@@ -98,45 +96,10 @@ export default function ListagemProduto() {
 
   return (
     <>
-      <ListingProducts>
-        <div className="flex flex-col gap-2 md:flex-row md:items-center">
-          {/* Barra de pesquisa */}
-          <span className="relative mb-2 flex flex-1 items-center gap-1 rounded-lg border p-2 text-slate-600 md:mb-0">
-            <MagnifyingGlassIcon className="size-6" />
-            <input
-              type="search"
-              name="search"
-              id="search"
-              placeholder="Produto ou ID"
-              maxLength={100}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full placeholder:text-slate-500 focus:outline-none"
-            />
-          </span>
-
-          {/* Botões */}
-          <div className="flex gap-2">
-            <label
-              htmlFor="filter-sidebar"
-              className="drawer-button flex cursor-pointer gap-2"
-            >
-              <FunnelIcon className="size-6" />
-              Filtros
-            </label>
-
-            <button className="action" onClick={() => true}>
-              <PlusCircleIcon className="size-5" />
-              <span className="hidden md:inline">Adicionar</span>
-            </button>
-
-            <button className="action">
-              <PrinterIcon className="size-5" />
-              <span className="hidden md:inline">Imprimir</span>
-            </button>
-          </div>
-        </div>
-      </ListingProducts>
+      <SearchPanel
+        search={search}
+        callback={(e) => setSearch(e.target.value)}
+      />
 
       <article className="overflow-x-auto">
         <table className="table border-separate border-spacing-x-0">
