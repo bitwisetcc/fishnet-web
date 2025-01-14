@@ -63,11 +63,8 @@ export default function ListagemProduto() {
         ({ products, pageCount }) => {
           setProducts(products);
           setPageCount(pageCount);
-          console.log(search);
         },
-      );
-
-      setLoading(false);
+      ).then(() => setLoading(false));
     }, 1500),
     [],
   );
@@ -135,7 +132,7 @@ export default function ListagemProduto() {
               <th className="rounded-r-xl border-r">Catálogo</th>
             </tr>
           </thead>
-          <tbody className="before:block before:leading-3 before:content-['-'] before:-indent-80">
+          <tbody className="before:block before:-indent-80 before:leading-3 before:content-['-']">
             {products.map((product) => (
               <ProductLine
                 product={product}
