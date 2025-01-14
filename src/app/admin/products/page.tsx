@@ -1,7 +1,7 @@
 "use client";
 
 import { getProductByFilter } from "@/app/lib/query";
-import { TitleContext } from "@/app/lib/stores";
+import { SideBarContext, TitleContext } from "@/app/lib/stores";
 import {
   ArrowDownIcon,
   ArrowsUpDownIcon,
@@ -13,22 +13,49 @@ import {
   PlusCircleIcon,
   PrinterIcon,
 } from "@heroicons/react/24/outline";
-import { useCallback, useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import InsightsDialog from "./components/InsightsDialog";
 import ListingProducts from "./components/ListingProducts";
 import ProductLine from "./components/ProductLine";
 import RegisterProductDialog from "./components/RegisterProductDialog";
+import { getProducts, ProductFilters, ProductOrdering } from "./lib";
 
 export default function ListagemProduto() {
   const setTitle = useContext(TitleContext);
-
   useEffect(() => setTitle("Produtos"), [setTitle]);
+
+  const [search, setSearch] = useState("");
+  const [pageIndex, setPageIndex] = useState(1);
+  const [ordering, setOrdering] = useState<ProductOrdering>(null);
+  const [filters, setFilters]: [
+    ProductFilters,
+    Dispatch<SetStateAction<ProductFilters>>,
+  ] = useContext(SideBarContext);
+
+  const [products, setProducts] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+
+  useCallback(() => {
+    getProducts(filters, ordering, search, pageIndex).then(
+      ({ products, pageCount }) => {
+        setProducts(products);
+        setPageCount(pageCount);
+      },
+    );
+  }, [filters, ordering]);
 
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [registerOpen, setRegisterOpen] = useState(false);
   const [filteringOpen, setFilteringOpen] = useState(false);
-  const [filters, setFilters] = useState({});
+  // const [filters, setFilters] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortOrder, setSortOrder] = useState("none");
@@ -157,61 +184,25 @@ export default function ListagemProduto() {
         </div>
       </ListingProducts>
 
-      <div className="overflow-x-scroll md:overflow-x-hidden">
-        <article className="grid">
-          <header className="listing col-span-7 flex items-center rounded-lg bg-slate-100 p-2 shadow-md">
-            <span className="flex items-center justify-center font-semibold">
-              Foto
-            </span>
-            <span
-              className="cursor-pointer font-semibold"
-              onClick={handleSortByName}
-            >
-              <span className="flex w-max items-center justify-start rounded bg-slate-400/30 p-1">
-                Nome{" "}
-                {sortOrder === "asc" ? (
-                  <ArrowDownIcon className="ml-1 mt-1 size-4" />
-                ) : sortOrder === "desc" ? (
-                  <ArrowUpIcon className="ml-1 mt-1 size-4" />
-                ) : (
-                  <ArrowsUpDownIcon className="ml-1 mt-1 size-4" />
-                )}
-              </span>
-            </span>
-            <span
-              className="flex cursor-pointer items-center justify-center font-semibold"
-              onClick={handleSortByPrice}
-            >
-              <span className="flex w-max items-center justify-start rounded bg-slate-400/30 p-1">
-                Preço{" "}
-                {priceOrder === "asc" ? (
-                  <ArrowDownIcon className="ml-1 mt-1 size-4" />
-                ) : priceOrder === "desc" ? (
-                  <ArrowUpIcon className="ml-1 mt-1 size-4" />
-                ) : (
-                  <ArrowsUpDownIcon className="ml-1 mt-1 size-4" />
-                )}
-              </span>
-            </span>
-            <span className="flex items-center justify-center font-semibold">
-              Estoque
-            </span>
-            <span className="flex items-center justify-center font-semibold">
-              Insights
-            </span>
-            <span className="flex items-center justify-center font-semibold">
-              Ações
-            </span>
-            <span className="flex items-center justify-center font-semibold">
-              Catálogo
-            </span>
-          </header>
-
-          {filteredProducts.map((product) => (
-            <ProductLine product={product} key={product.id} />
-          ))}
-        </article>
-      </div>
+      <article className="overflow-x-auto">
+        <table className="table table-pin-rows border-separate border-spacing-x-0">
+          <thead>
+            <tr className="border-y bg-transparent text-lg text-stone-600 *:border-y *:border-slate-400 *:font-medium">
+              <th className="rounded-l-xl border-l">Foto</th>
+              <th onClick={handleSortByName}>Identificação</th>
+              <th onClick={handleSortByPrice}>Preço</th>
+              <th>Estoque</th>
+              <th>Ações</th>
+              <th className="rounded-r-xl border-r">Catálogo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredProducts.map((product) => (
+              <ProductLine product={product} key={product.id} />
+            ))}
+          </tbody>
+        </table>
+      </article>
 
       <footer className="my-8 flex items-center justify-between">
         <button

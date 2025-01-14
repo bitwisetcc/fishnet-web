@@ -4,14 +4,7 @@ import { SideBarContext } from "@/app/lib/stores";
 import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import ToggleButton from "../components/ToggleButton";
 import MoneyInput from "../components/MoneyInput";
-
-interface ProductFilters {
-  environment: "fresh" | "salt";
-  feeding: "herbivore" | "omnivore" | "carnivore";
-  behaviour: "pacific" | "aggressive" | "cluster";
-  minPrice: number;
-  maxPrice: number;
-}
+import { ProductFilters } from "../../products/lib";
 
 export default function ProductsSideBar() {
   let [filters, setFilters]: [
@@ -60,20 +53,20 @@ export default function ProductsSideBar() {
         <ToggleButton
           title="🌱 Herbívoro"
           group="feeding"
-          checked={filters.feeding == "herbivore"}
-          callback={() => setFilters({ ...filters, feeding: "herbivore" })}
+          checked={filters.feeding == "herb"}
+          callback={() => setFilters({ ...filters, feeding: "herb" })}
         />
         <ToggleButton
           title="🥚 Onívoro"
           group="feeding"
-          checked={filters.feeding == "omnivore"}
-          callback={() => setFilters({ ...filters, feeding: "omnivore" })}
+          checked={filters.feeding == "omni"}
+          callback={() => setFilters({ ...filters, feeding: "omni" })}
         />
         <ToggleButton
           title="🍖 Carnívoro"
           group="feeding"
-          checked={filters.feeding == "carnivore"}
-          callback={() => setFilters({ ...filters, feeding: "carnivore" })}
+          checked={filters.feeding == "carn"}
+          callback={() => setFilters({ ...filters, feeding: "carn" })}
         />
       </section>
 
@@ -114,8 +107,8 @@ export default function ProductsSideBar() {
         <ToggleButton
           title="🎏 Cardume"
           group="behaviour"
-          checked={filters.behaviour == "cluster"}
-          callback={() => setFilters({ ...filters, behaviour: "cluster" })}
+          checked={filters.behaviour == "schooling"}
+          callback={() => setFilters({ ...filters, behaviour: "schooling" })}
         />
       </section>
 

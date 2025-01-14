@@ -1,10 +1,11 @@
 export const API_URL = "https://fishnet-api-py.onrender.com";
 
-function parseProduct(prod) {
-  prod.id = prod._id;
-  prod.feeding = String(prod.feeding);
-  prod.tankSize = String(prod.tank_size);
-  return prod;
+export function parseProduct(product) {
+  product.id = product._id;
+  product.feeding = String(product.feeding);
+  product.tankSize = String(product.tank_size);
+  delete product._id;
+  return product;
 }
 
 function parseSale(sale) {
