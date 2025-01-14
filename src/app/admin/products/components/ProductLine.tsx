@@ -5,7 +5,8 @@ import {
 import Image from "next/image";
 import { price } from "@/app/lib/format";
 
-export default function ProductLine({ product }) {
+export default function ProductLine({ product, setId }) {
+  
   return (
     <tr className="rounded-lg p-2 transition-colors duration-200 hover:bg-slate-50">
       <td className="avatar">
@@ -32,10 +33,7 @@ export default function ProductLine({ product }) {
       <td className="gap-2">
         <button
           className=""
-          onClick={(e) => {
-            // setInsightsId(product.id);
-            // setInsightsDialog(true);
-          }}
+          onClick={() => setId(product.id)}
         >
           <ArrowTopRightOnSquareIcon className="size-5 cursor-pointer text-slate-800 transition-colors duration-200 hover:text-yellow-light" />
         </button>

@@ -14,6 +14,7 @@ import {
 import OrderingIcon from "./components/OrderingIcon";
 import ProductLine from "./components/ProductLine";
 import SearchPanel from "./components/SearchPanel";
+import InsightsModal from "./components/InsightsModal";
 import {
   cycleNameOrdering,
   cyclePriceOrdering,
@@ -27,6 +28,7 @@ export default function ListagemProduto() {
   useEffect(() => setTitle("Produtos"), [setTitle]);
 
   const [loading, setLoading] = useState(true);
+
   const [search, setSearch] = useState("");
   const [pageIndex, setPageIndex] = useState(1);
 
@@ -42,6 +44,8 @@ export default function ListagemProduto() {
 
   const [products, setProducts] = useState([]);
   const [pageCount, setPageCount] = useState(0);
+
+  const [insightId, setInsightId] = useState<string>(null);
 
   useEffect(() => {
     setFilters({
@@ -131,9 +135,13 @@ export default function ListagemProduto() {
               <th className="rounded-r-xl border-r">Catálogo</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="before:block before:leading-3 before:content-['-'] before:-indent-80">
             {products.map((product) => (
-              <ProductLine product={product} key={product.id} />
+              <ProductLine
+                product={product}
+                setId={setInsightId}
+                key={product.id}
+              />
             ))}
           </tbody>
         </table>
@@ -161,12 +169,9 @@ export default function ListagemProduto() {
         </button>
       </footer>
 
-      {/* <RegisterProductDialog open={registerOpen} setOpen={setRegisterOpen} />
-      <InsightsDialog
-        open={insightsDialog}
-        setOpen={setInsightsDialog}
-        id={insightsId}
-      /> */}
+      <InsightsModal id={insightId} />
+
+      {/* <RegisterProductDialog open={registerOpen} setOpen={setRegisterOpen} /> */}
     </>
   );
 }
