@@ -31,8 +31,8 @@ export default function SelectField({
           </option>
         )}
 
-        {Object.entries(options).map(([key, label]) => (
-          <option value={key}>{label}</option>
+        {Object.entries(options).map(([key, label], i) => (
+          <option value={key} key={i}>{label}</option>
         ))}
       </select>
     </label>

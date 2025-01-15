@@ -35,7 +35,7 @@ export default function SearchPanel({
 
       <label htmlFor="sidebar-toggle" className="btn btn-ghost drawer-button">
         <FunnelIcon className="size-5" />
-        Filtros
+        <span className="hidden md:inline">Filtros</span>
       </label>
 
       <button className="btn btn-secondary" onClick={() => openRegister()}>

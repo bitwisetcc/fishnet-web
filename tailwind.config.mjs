@@ -40,6 +40,7 @@ export default {
           accent: "#37cdbe",
           neutral: "#3d4451",
           "base-100": "#ced9e5",
+          "base-200": "#f1f5f9",
 
           // "--tglgb": "#deeaf7"
         },

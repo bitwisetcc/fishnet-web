@@ -12,21 +12,23 @@ import {
 } from "react";
 import OrderingIcon from "../components/listing/OrderingIcon";
 import PaginationController from "../components/listing/PaginationController";
-import ProductLine from "./components/ProductLine";
-import SearchPanel from "./components/SearchPanel";
+import ProductLine from "../products/components/ProductLine";
+import SearchPanel from "../products/components/SearchPanel";
+import InsightsModal from "../products/modals/InsightsModal";
+import RegisterProductModal from "../products/modals/RegisterModal";
 import {
-  cycleNameOrdering,
-  cyclePriceOrdering,
-  getProducts,
-  ProductFilters,
-  ProductOrdering,
+  cycleClientOrdering,
+  cycleDateOrdering,
+  cycleTotalOrdering,
+  getSales,
+  SaleFilters,
+  SaleOrdering,
 } from "./lib";
-import InsightsModal from "./modals/InsightsModal";
-import RegisterProductModal from "./modals/RegisterModal";
+import SaleLine from "./components/SaleLine";
 
 export default function ListagemProduto() {
   const setTitle = useContext(TitleContext);
-  useEffect(() => setTitle("Produtos"), [setTitle]);
+  useEffect(() => setTitle("Vendas"), [setTitle]);
 
   const [loading, setLoading] = useState(true);
   const [insightId, setInsightId] = useState<string>(null);
@@ -34,14 +36,15 @@ export default function ListagemProduto() {
   const [search, setSearch] = useState("");
   const [pageIndex, setPageIndex] = useState(1);
 
-  const [ordering, setOrdering] = useState<ProductOrdering>({
-    name: undefined,
-    price: undefined,
+  const [ordering, setOrdering] = useState<SaleOrdering>({
+    client: undefined,
+    date: undefined,
+    total: undefined,
   });
 
   const [filters, setFilters]: [
-    ProductFilters,
-    Dispatch<SetStateAction<ProductFilters>>,
+    SaleFilters,
+    Dispatch<SetStateAction<SaleFilters>>,
   ] = useContext(SideBarContext);
 
   const [products, setProducts] = useState([]);
@@ -49,17 +52,18 @@ export default function ListagemProduto() {
 
   useEffect(() => {
     setFilters({
-      environment: undefined,
-      feeding: undefined,
-      behaviour: undefined,
-      minPrice: undefined,
+      maxDate: undefined,
+      minDate: undefined,
+      payment: undefined,
+      status: undefined,
       maxPrice: undefined,
+      minPrice: undefined,
     });
   }, []);
 
   const load = useCallback(
     throttle((filters, ordering, search, pageIndex) => {
-      getProducts(filters, ordering, search, pageIndex)
+      getSales(filters, ordering, search, pageIndex)
         .then(({ products, pageCount }) => {
           setProducts(products);
           setPageCount(pageCount);
@@ -97,15 +101,14 @@ export default function ListagemProduto() {
         <table className="table border-separate border-spacing-x-0 border-spacing-y-1">
           <thead>
             <tr className="border-y bg-transparent text-lg text-stone-600 *:border-y *:border-slate-400 *:font-medium">
-              <th className="rounded-l-xl border-l">Foto</th>
               <th
-                onClick={() => setOrdering(cycleNameOrdering(ordering))}
-                className="cursor-pointer transition-colors hover:text-stone-800"
+                onClick={() => setOrdering(cycleClientOrdering(ordering))}
+                className="cursor-pointer transition-colors hover:text-stone-800 rounded-l-xl border-l"
               >
                 <div className="flex items-center gap-2">
-                  Identificação
+                  Cliente
                   <OrderingIcon
-                    state={ordering.name}
+                    state={ordering.client}
                     variants={{
                       default: undefined,
                       ascending: "A-Z",
@@ -114,14 +117,15 @@ export default function ListagemProduto() {
                   />
                 </div>
               </th>
+              <th>Frete</th>
               <th
-                onClick={() => setOrdering(cyclePriceOrdering(ordering))}
+                onClick={() => setOrdering(cycleTotalOrdering(ordering))}
                 className="cursor-pointer transition-colors hover:text-stone-800"
               >
                 <div className="flex items-center gap-2">
-                  Preço
+                  Total
                   <OrderingIcon
-                    state={ordering.price}
+                    state={ordering.total}
                     variants={{
                       default: undefined,
                       ascending: "crescente",
@@ -130,17 +134,33 @@ export default function ListagemProduto() {
                   />
                 </div>
               </th>
-              <th>Estoque</th>
-              <th>Ações</th>
-              <th className="rounded-r-xl border-r">Catálogo</th>
+              <th>Pagamento</th>
+              <th>Status</th>
+              <th
+                onClick={() => setOrdering(cycleDateOrdering(ordering))}
+                className="cursor-pointer transition-colors hover:text-stone-800"
+              >
+                <div className="flex items-center gap-2">
+                  Data
+                  <OrderingIcon
+                    state={ordering.date}
+                    variants={{
+                      default: undefined,
+                      ascending: "crescente",
+                      descending: "decrescente",
+                    }}
+                  />
+                </div>
+              </th>
+              <th className="rounded-r-xl border-r">Mais</th>
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
-              <ProductLine
-                product={product}
+            {products.map((sale) => (
+              <SaleLine
+                sale={sale}
                 setId={setInsightId}
-                key={product.id}
+                key={sale._id}
               />
             ))}
           </tbody>

@@ -6,11 +6,10 @@ import Image from "next/image";
 import { price } from "@/app/lib/format";
 
 export default function ProductLine({ product, setId }) {
-  
   return (
-    <tr className="rounded-lg p-2 transition-colors duration-200 hover:bg-slate-50">
-      <td className="avatar">
-        <div className="w-20 rounded-xl">
+    <tr className="group rounded-lg p-2 transition-colors duration-500 hover:bg-slate-50">
+      <td className="avatar rounded-l-xl">
+        <div className="w-16 rounded-xl">
           <Image
             src={product.pictures[0]}
             width={100}
@@ -31,10 +30,7 @@ export default function ProductLine({ product, setId }) {
       <td className="text-nowrap">{product.quantity}</td>
 
       <td className="gap-2">
-        <button
-          className=""
-          onClick={() => setId(product.id)}
-        >
+        <button className="" onClick={() => setId(product.id)}>
           <ArrowTopRightOnSquareIcon className="size-5 cursor-pointer text-slate-800 transition-colors duration-200 hover:text-yellow-light" />
         </button>
         <button className="transition-colors duration-200 hover:text-yellow-light">
@@ -43,7 +39,12 @@ export default function ProductLine({ product, setId }) {
       </td>
 
       <td>
-        <input type="checkbox" name="lock" id="ch-lock" className="toggle checked:toggle-error" />
+        <input
+          type="checkbox"
+          name="lock"
+          id="ch-lock"
+          className="toggle checked:toggle-error"
+        />
       </td>
     </tr>
   );
