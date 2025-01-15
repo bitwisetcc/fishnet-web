@@ -57,7 +57,6 @@ export interface Sale {
 }
 
 function parseSale(obj: any): Sale {
-  console.debug(obj)
   return {
     ...obj,
     paymentMethod: obj.payment_method,

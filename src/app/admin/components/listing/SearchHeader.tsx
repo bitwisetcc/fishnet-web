@@ -1,21 +1,18 @@
-import {
-  FunnelIcon,
-  MagnifyingGlassIcon,
-  PlusCircleIcon,
-  PrinterIcon,
-} from "@heroicons/react/24/outline";
-import { ChangeEventHandler, Dispatch } from "react";
+import { FunnelIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { ChangeEventHandler, ReactNode } from "react";
 
 interface SearchPanelProps {
   search: string;
+  tip?: string;
   callback: ChangeEventHandler<HTMLInputElement>;
-  openRegister: Dispatch<void>;
+  children?: ReactNode;
 }
 
-export default function SearchPanel({
+export default function SearchHeader({
   search,
+  tip,
   callback,
-  openRegister,
+  children,
 }: SearchPanelProps) {
   return (
     <header className="mb-4 grid grid-cols-3 gap-2 rounded-xl border border-slate-400 bg-base-200 p-4 shadow md:flex">
@@ -25,7 +22,7 @@ export default function SearchPanel({
           type="search"
           name="search"
           id="search"
-          placeholder="Título do produto"
+          placeholder={tip}
           maxLength={100}
           value={search}
           onChange={callback}
@@ -41,18 +38,7 @@ export default function SearchPanel({
         <span className="hidden md:inline">Filtros</span>
       </label>
 
-      <button
-        className="btn btn-secondary btn-sm md:btn-md"
-        onClick={() => openRegister()}
-      >
-        <PlusCircleIcon className="size-5" />
-        <span className="hidden md:inline">Adicionar</span>
-      </button>
-
-      <button className="btn btn-secondary btn-sm md:btn-md">
-        <PrinterIcon className="size-5" />
-        <span className="hidden md:inline">Imprimir</span>
-      </button>
+      {children}
     </header>
   );
 }

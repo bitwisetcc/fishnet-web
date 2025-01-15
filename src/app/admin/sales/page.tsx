@@ -12,10 +12,10 @@ import {
 } from "react";
 import OrderingIcon from "../components/listing/OrderingIcon";
 import PaginationController from "../components/listing/PaginationController";
-import ProductLine from "../products/components/ProductLine";
-import SearchPanel from "../products/components/SearchPanel";
+import SearchHeader from "../components/listing/SearchHeader";
 import InsightsModal from "../products/modals/InsightsModal";
 import RegisterProductModal from "../products/modals/RegisterModal";
+import SaleLine from "./components/SaleLine";
 import {
   cycleClientOrdering,
   cycleDateOrdering,
@@ -24,7 +24,6 @@ import {
   SaleFilters,
   SaleOrdering,
 } from "./lib";
-import SaleLine from "./components/SaleLine";
 
 export default function ListagemProduto() {
   const setTitle = useContext(TitleContext);
@@ -81,14 +80,10 @@ export default function ListagemProduto() {
 
   return (
     <>
-      <SearchPanel
+      <SearchHeader
         search={search}
+        tip="Nome do cliente"
         callback={(e) => setSearch(e.target.value)}
-        openRegister={() =>
-          (
-            document.getElementById("md-register-prod") as HTMLDialogElement
-          ).showModal()
-        }
       />
 
       <PaginationController

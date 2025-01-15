@@ -1,6 +1,7 @@
 "use client";
 
 import { SideBarContext, TitleContext } from "@/app/lib/stores";
+import { PlusCircleIcon, PrinterIcon } from "@heroicons/react/24/outline";
 import throttle from "lodash.throttle";
 import {
   Dispatch,
@@ -12,8 +13,8 @@ import {
 } from "react";
 import OrderingIcon from "../components/listing/OrderingIcon";
 import PaginationController from "../components/listing/PaginationController";
+import SearchHeader from "../components/listing/SearchHeader";
 import ProductLine from "./components/ProductLine";
-import SearchPanel from "./components/SearchPanel";
 import {
   cycleNameOrdering,
   cyclePriceOrdering,
@@ -77,15 +78,29 @@ export default function ListagemProduto() {
 
   return (
     <>
-      <SearchPanel
+
+      <SearchHeader
         search={search}
+        tip="Título do produto"
         callback={(e) => setSearch(e.target.value)}
-        openRegister={() =>
-          (
-            document.getElementById("md-register-prod") as HTMLDialogElement
-          ).showModal()
-        }
-      />
+      >
+        <button
+          className="btn btn-secondary btn-sm md:btn-md"
+          onClick={() =>
+            (
+              document.getElementById("md-register-prod") as HTMLDialogElement
+            ).showModal()
+          }
+        >
+          <PlusCircleIcon className="size-5" />
+          <span className="hidden md:inline">Adicionar</span>
+        </button>
+
+        <button className="btn btn-secondary btn-sm md:btn-md">
+          <PrinterIcon className="size-5" />
+          <span className="hidden md:inline">Imprimir</span>
+        </button>
+      </SearchHeader>
 
       <PaginationController
         pageCount={pageCount}
