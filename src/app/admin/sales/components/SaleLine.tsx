@@ -29,7 +29,7 @@ export default function SaleLine({ sale, setId }: SaleLineProps) {
       <td>{price(sale.total)}</td>
 
       <td>
-        <span className="badge border-slate-500 bg-slate-400">
+        <span className="badge badge-outline">
           {sale.paymentMethod}
         </span>
       </td>

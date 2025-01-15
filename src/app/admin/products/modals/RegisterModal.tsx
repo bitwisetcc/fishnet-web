@@ -34,7 +34,7 @@ export default function RegisterProductModal() {
       <div className="modal-box w-2/3 max-w-3xl bg-base-100">
         <form method="dialog">
           <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">
-            <XMarkIcon className="size-5 text-slate-800" />
+            <XMarkIcon className="size-5 text-base-content" />
           </button>
         </form>
 
@@ -42,6 +42,10 @@ export default function RegisterProductModal() {
           className="grid grid-cols-2 gap-2 overflow-y-scroll px-2 text-stone-900"
           onSubmit={submit}
         >
+          <h2 className="col-span-2 text-lg font-semibold">
+            Informações Gerais
+          </h2>
+
           <FormField name="name" label="Nome" placeholder="Glowlight Tetra" />
           <FormField
             name="scientificName"
@@ -53,6 +57,7 @@ export default function RegisterProductModal() {
             label="Preço"
             placeholder="29.95"
             type="number"
+            unit="R$"
           />
 
           <FormField name="origin" label="Origem" placeholder="Guiana" />
@@ -107,51 +112,48 @@ export default function RegisterProductModal() {
             }}
           />
 
-          <div className="field">
-            <label htmlFor="txt-desc">Descrição</label>
-            <input type="text" name="desc" id="txt-desc" />
-          </div>
+          <hr className="col-span-2 my-3" />
 
-          {/* <div className="field">
-            <label>Imagens</label>
-            {images.map((_, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <input
-                  type="url"
-                  name={`image-${i}`}
-                  id={`txt-img-${i}`}
-                  placeholder="URL da imagem"
-                />
-                <button
-                  type="button"
-                  onClick={() => {
-                    const newImages = images.slice();
-                    newImages.splice(i, 1); // Remove a imagem da lista
-                    setImages(newImages);
-                  }}
-                  className="text-red-500 transition-colors hover:text-red-700"
-                >
-                  Remover
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={() => setImages([...images, ""])}
-              className="mt-2 flex items-center gap-1 text-blue-dark transition-colors hover:text-sky-800"
-            >
-              <PlusIcon className="size-4" />
-              Adicionar Imagem
-            </button>
-          </div> */}
-          <div className="mt-2 flex flex-row justify-end gap-4">
-            <button className="action" type="submit">
-              Cadastrar
-            </button>
-            <button className="alternate" type="reset">
-              Limpar
-            </button>
-          </div>
+          <h2 className="col-span-2 text-lg font-semibold">Descrição</h2>
+
+          <textarea
+            name="description"
+            id="txt-description"
+            rows={3}
+            className="textarea textarea-bordered col-span-2"
+          ></textarea>
+
+          <hr className="col-span-2 my-3" />
+
+          <h2 className="col-span-2 text-lg font-semibold">Imagens</h2>
+
+          <section className="col-span-2 space-y-2">
+            <input
+              type="file"
+              className="file-input file-input-bordered file-input-sm w-full"
+            />
+            <input
+              type="file"
+              className="file-input file-input-bordered file-input-sm w-full"
+            />
+            <input
+              type="file"
+              className="file-input file-input-bordered file-input-sm w-full"
+            />
+            <input
+              type="file"
+              className="file-input file-input-bordered file-input-sm w-full"
+            />
+          </section>
+
+          <hr className="col-span-2 my-3" />
+
+          <button className="btn btn-primary" type="submit">
+            Cadastrar
+          </button>
+          <button className="btn btn-outline btn-error" type="reset">
+            Limpar
+          </button>
         </form>
       </div>
     </dialog>

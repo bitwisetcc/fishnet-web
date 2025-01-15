@@ -21,7 +21,7 @@ export default function ProductsSideBar() {
   ] = useContext(SideBarContext);
 
   return (
-    <form className="flex h-full flex-col gap-4 overflow-y-auto rounded-lg border border-slate-500 bg-slate-200 p-6 text-stone-800 sm:max-w-md md:w-[45%] md:p-8 lg:w-[25vw]">
+    <form className="flex h-full w-[75vw] flex-col gap-4 overflow-y-auto rounded-lg border border-slate-500 bg-base-200 p-6 text-stone-800 sm:w-[45vw] md:p-8 lg:w-[25vw]">
       <h2 className="mb-5 text-2xl font-semibold">Filtros</h2>
 
       <section>

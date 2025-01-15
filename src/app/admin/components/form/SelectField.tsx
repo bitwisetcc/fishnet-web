@@ -22,7 +22,7 @@ export default function SelectField({
       </div>
 
       <select
-        className="select select-bordered select-sm bg-slate-100"
+        className="select select-bordered select-sm bg-base-200"
         name={name}
       >
         {placeholder && (
@@ -32,7 +32,9 @@ export default function SelectField({
         )}
 
         {Object.entries(options).map(([key, label], i) => (
-          <option value={key} key={i}>{label}</option>
+          <option value={key} key={i}>
+            {label}
+          </option>
         ))}
       </select>
     </label>
