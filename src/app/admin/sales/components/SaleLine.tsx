@@ -17,7 +17,7 @@ export default function SaleLine({ sale, setId }: SaleLineProps) {
       <td>
         <span>{sale.customer.name}</span>
         <br />
-        <span className="text-sm text-gray-500">{sale._id}</span>
+        <span className="text-sm text-gray-500">{sale.customer.email}</span>
       </td>
 
       <td>
@@ -29,9 +29,7 @@ export default function SaleLine({ sale, setId }: SaleLineProps) {
       <td>{price(sale.total)}</td>
 
       <td>
-        <span className="badge badge-outline">
-          {sale.paymentMethod}
-        </span>
+        <span className="badge badge-outline">{sale.paymentMethod}</span>
       </td>
 
       <td>

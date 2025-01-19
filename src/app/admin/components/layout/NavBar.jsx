@@ -20,7 +20,7 @@ export default function NavBar() {
       <NavItem Icon={HomeIcon} text="Início" url="dashboard" />
       <NavItem Icon={FaFishFins} text="Produtos" url="products" />
       <NavItem Icon={PresentationChartLineIcon} text="Vendas" url="sales" />
-      <NavItem Icon={UsersIcon} text="Clientes" url="clients" />
+      <NavItem Icon={UsersIcon} text="Clientes" url="customers" />
       <NavItem Icon={BriefcaseIcon} text="Staff" url="staff" />
       <NavItem Icon={WrenchScrewdriverIcon} text="Configurar" url="settings" />
       <NavItem
