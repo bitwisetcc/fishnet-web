@@ -1,37 +1,20 @@
 import { logout } from "@/app/lib/auth";
-import { BriefcaseIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftStartOnRectangleIcon,
+  BriefcaseIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import {
   HomeIcon,
-  ArrowLeftStartOnRectangleIcon as LogOutIcon,
   PresentationChartLineIcon,
   UsersIcon,
-  WrenchScrewdriverIcon,
+  WrenchScrewdriverIcon
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { FaFishFins } from "react-icons/fa6";
 
 const Header = ({ title, profile }) => {
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-  const menuRef = useRef(null);
-
-  useEffect(() => {
-    setProfileMenuOpen(false);
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setProfileMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [menuRef]);
-
   return (
     <header className="mx-7 my-6 flex flex-row items-center justify-between">
       <div className="flex items-center gap-4">
@@ -39,52 +22,43 @@ const Header = ({ title, profile }) => {
         <h1 className="text-3xl font-bold text-sky-950">{title}</h1>
       </div>
       <div className="relative flex items-center gap-3">
-        {/* Modificação aqui: escondendo o nome em telas pequenas */}
         {profile.name && (
           <span className="hidden font-semibold text-sky-900 md:inline">
             {profile.name}
           </span>
         )}
-        <img
-          className="h-14 w-14 cursor-pointer rounded-full object-cover shadow-sm"
-          src={profile.picture || "https://www.pudim.com.br/pudim.jpg"}
-          alt="Perfil"
-          onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-        />
-        {profileMenuOpen && (
+        <div className="dropdown dropdown-end">
+          <img
+            className="h-14 w-14 cursor-pointer rounded-full object-cover shadow-sm"
+            tabIndex={0}
+            role="button"
+            src={profile.picture || "https://www.pudim.com.br/pudim.jpg"}
+            alt="Perfil"
+          />
           <ul
-            ref={menuRef}
-            className="absolute right-0 top-10 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg"
+            tabIndex={0}
+            className="menu dropdown-content z-[1] w-52 rounded-box bg-base-200 p-2 shadow"
           >
             <li>
-              <Link
-                href="/profile"
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-              >
+              <Link href="/profile">
+                <UserIcon className="mr-2 inline size-5" />
                 Minha Conta
               </Link>
             </li>
             <li>
-              <Link
-                href="/config"
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-              >
+              <Link href="/config">
                 <WrenchScrewdriverIcon className="mr-2 inline h-5 w-5" />
                 Configurações
               </Link>
             </li>
-            <li>
-              <Link
-                href="/login"
-                onClick={logout}
-                className="block px-4 py-2 text-red-600 hover:bg-red-100"
-              >
-                <LogOutIcon className="mr-2 inline h-5 w-5" />
-                Sair da Conta
-              </Link>
+            <li onClick={logout}>
+              <a href="" target="_self">
+                <ArrowLeftStartOnRectangleIcon className="mr-2 inline size-5" />
+                Sair da conta
+              </a>
             </li>
           </ul>
-        )}
+        </div>
       </div>
     </header>
   );

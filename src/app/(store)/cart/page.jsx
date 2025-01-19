@@ -1,7 +1,7 @@
 "use client";
 
-import CartItems from "@/app/components/CartItems";
-import CartSummary from "@/app/components/CartSummary";
+import CartItems from "@/app/(store)/components/CartItems";
+import CartSummary from "@/app/(store)/components/CartSummary";
 import { listCartItems, removeFromCart } from "@/app/lib/cart";
 import { getProductById } from "@/app/lib/query";
 import { useEffect, useState } from "react";

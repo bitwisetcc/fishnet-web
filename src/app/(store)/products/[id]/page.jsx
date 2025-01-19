@@ -8,9 +8,9 @@ import { ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { addCartItem, ensureCart } from "@/app/lib/cart";
 import { getProductById, listAllProducts } from "@/app/lib/query";
 import { price } from "@/app/lib/format";
-import Counter from "@/app/components/Counter";
-import Options from "@/app/components/Options";
-import ProductRail from "@/app/components/ProductRail";
+import Counter from "@/app/(store)/components/form/Counter";
+import Options from "@/app/(store)/components/form/Options";
+import ProductRail from "@/app/(store)/components/ProductRail";
 
 export default function ProductPage() {
   const { id } = useParams();

@@ -1,8 +1,10 @@
 "use client";
 
-import CartSummary from "@/app/components/CartSummary";
-import FancyInput, { StatefullFancyInput } from "@/app/components/FancyInput";
-import PrivacyPolicy from "@/app/components/PrivacyPolicy";
+import CartSummary from "@/app/(store)/components/CartSummary";
+import FancyInput, {
+  StatefullFancyInput,
+} from "@/app/(store)/components/form/FancyInput";
+import PrivacyPolicy from "@/app/(store)/components/PrivacyPolicy";
 import { clearCart, listCartItems } from "@/app/lib/cart";
 import { API_URL, getProductById } from "@/app/lib/query";
 import { useRouter } from "next/navigation";

@@ -13,6 +13,15 @@ const nextConfig = {
       { protocol: "https", hostname: "images-americanas.b2w.io" },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/admin",
+        destination: "/admin/dashboard",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

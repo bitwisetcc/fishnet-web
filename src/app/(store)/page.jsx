@@ -1,6 +1,6 @@
 "use client";
 
-import ProductRail from "@/app/components/ProductRail";
+import ProductRail from "@/app/(store)/components/ProductRail";
 import { listAllProducts } from "@/app/lib/query";
 import {
   ArchiveBoxIcon,
@@ -36,10 +36,9 @@ export default function Page() {
           title="Sugerido com base na suas buscas ✨"
         />
       </article>
-      
-    <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
-    <script src="https://files.bpcontent.cloud/2024/10/03/00/20241003004821-6U8LGXLF.js"></script>
-    
+
+      <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+      <script src="https://files.bpcontent.cloud/2024/10/03/00/20241003004821-6U8LGXLF.js"></script>
     </>
   );
 }
@@ -117,18 +116,22 @@ function SlideShow() {
 
 function Shipping() {
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 bg-accent-middle px-4 py-4 text-white lg:px-16">
+    <section className="grid grid-cols-1 gap-4 bg-accent-middle px-4 py-4 text-white sm:grid-cols-2 lg:grid-cols-4 lg:px-16">
       <div className="flex items-center gap-3">
         <ArchiveBoxIcon className="h-6 w-6 text-golden-fish" />
         <div>
-          <h3 className="text-sm font-semibold text-golden-fish">Frete grátis</h3>
+          <h3 className="text-sm font-semibold text-golden-fish">
+            Frete grátis
+          </h3>
           <span className="text-xs">Para itens retirados na loja</span>
         </div>
       </div>
       <div className="flex items-center gap-3">
         <MapPinIcon className="h-6 w-6 text-golden-fish" />
         <div>
-          <h3 className="text-sm font-semibold text-golden-fish">Envio garantido</h3>
+          <h3 className="text-sm font-semibold text-golden-fish">
+            Envio garantido
+          </h3>
           <span className="text-xs">Entregamos para todo o Brasil</span>
         </div>
       </div>
@@ -142,7 +145,9 @@ function Shipping() {
       <div className="flex items-center gap-3">
         <HandThumbUpIcon className="h-6 w-6 text-golden-fish" />
         <div>
-          <h3 className="text-sm font-semibold text-golden-fish">Converse conosco</h3>
+          <h3 className="text-sm font-semibold text-golden-fish">
+            Converse conosco
+          </h3>
           <span className="text-xs">Tire dúvidas por WhatsApp</span>
         </div>
       </div>
@@ -154,70 +159,74 @@ function Categories() {
   const categories = [
     {
       name: "Peixes Betta",
-      image: "https://aquaticarts.com/cdn/shop/products/Deluxe-Beta-3_1800x1800.jpg",
+      image:
+        "https://aquaticarts.com/cdn/shop/products/Deluxe-Beta-3_1800x1800.jpg",
       id: "betta",
     },
     {
       name: "Peixes Farpados",
-      image: "https://aquaticarts.com/cdn/shop/products/RedPandaBarb5_1800x1800.jpg",
+      image:
+        "https://aquaticarts.com/cdn/shop/products/RedPandaBarb5_1800x1800.jpg",
       id: "barb",
     },
     {
       name: "Peixes Tetra",
-      image: "https://aquaticarts.com/cdn/shop/products/Silver-Tip-Tetra-Small-1_1800x1800.jpg",
+      image:
+        "https://aquaticarts.com/cdn/shop/products/Silver-Tip-Tetra-Small-1_1800x1800.jpg",
       id: "tetra",
     },
     {
       name: "Peixes Tigre",
-      image: "https://aquaticarts.com/cdn/shop/products/Tiger_Oscar_7_1800x1800.jpg",
+      image:
+        "https://aquaticarts.com/cdn/shop/products/Tiger_Oscar_7_1800x1800.jpg",
       id: "tiger",
     },
     {
       name: "Carnívoros",
-      image: "https://aquaticarts.com/cdn/shop/products/Blue-Zebra-Angelfish-3_1800x1800.jpg",
+      image:
+        "https://aquaticarts.com/cdn/shop/products/Blue-Zebra-Angelfish-3_1800x1800.jpg",
       id: "carnivore",
     },
     {
       name: "Onívoros",
-      image: "https://aquaticarts.com/cdn/shop/products/Blue-Zebra-Angelfish-3_1800x1800.jpg",
+      image:
+        "https://aquaticarts.com/cdn/shop/products/Blue-Zebra-Angelfish-3_1800x1800.jpg",
       id: "omnivore",
     },
     {
       name: "Água doce",
-      image: "https://aquaticarts.com/cdn/shop/products/Blue-Zebra-Angelfish-3_1800x1800.jpg",
+      image:
+        "https://aquaticarts.com/cdn/shop/products/Blue-Zebra-Angelfish-3_1800x1800.jpg",
       id: "freshwater",
     },
     {
       name: "Água salgada",
-      image: "https://aquaticarts.com/cdn/shop/products/Blue-Zebra-Angelfish-3_1800x1800.jpg",
+      image:
+        "https://aquaticarts.com/cdn/shop/products/Blue-Zebra-Angelfish-3_1800x1800.jpg",
       id: "saltwater",
     },
   ];
 
   return (
-    <section className="flex overflow-x-auto justify-center border-b border-slate-300 bg-slate-100 py-5 pt-8 shadow-inner shadow-slate-500">
-  <div className="flex flex-nowrap justify-start gap-4 min-w-[375px]">
-    {categories.map((category) => (
-      <Link
-        className="flex flex-col items-center gap-2 shrink-0 w-28" // Ajuste a largura conforme necessário
-        key={category.id}
-        href={`/products?category=${category.id}`}
-      >
-        <Image
-          src={category.image}
-          alt={category.name}
-          width={100}
-          height={100}
-          className="aspect-square w-24 rounded-full object-cover border-2 border-accent-middle"
-        />
-        <span className="text-xs">{category.name}</span>
-      </Link>
-    ))}
-  </div>
-</section>
-
-
-
-  
+    <section className="flex justify-center overflow-x-auto border-b border-slate-300 bg-slate-100 py-5 pt-8 shadow-inner shadow-slate-500">
+      <div className="flex min-w-[375px] flex-nowrap justify-start gap-4">
+        {categories.map((category) => (
+          <Link
+            className="flex w-28 shrink-0 flex-col items-center gap-2" // Ajuste a largura conforme necessário
+            key={category.id}
+            href={`/products?category=${category.id}`}
+          >
+            <Image
+              src={category.image}
+              alt={category.name}
+              width={100}
+              height={100}
+              className="aspect-square w-24 rounded-full border-2 border-accent-middle object-cover"
+            />
+            <span className="text-xs">{category.name}</span>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
