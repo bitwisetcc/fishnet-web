@@ -7,8 +7,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import ProductPreview from "@/app/components/ProductPreview";
-import {getProductByFilter } from "@/app/lib/query";
+import ProductPreview from "@/app/(store)/components/ProductPreview";
+import { getProductByFilter } from "@/app/lib/query";
 
 export default function ProductPage() {
   const [prods, setProds] = useState([]);
@@ -22,13 +22,16 @@ export default function ProductPage() {
   const loadProducts = useCallback(
     async (page) => {
       setLoading(true);
-      const { products, pageCount}  = await getProductByFilter({ ...filters, page });
+      const { products, pageCount } = await getProductByFilter({
+        ...filters,
+        page,
+      });
       setProds(products);
       setTotalPages(pageCount);
       setNoResults(products.length === 0);
       setLoading(false);
     },
-    [filters]
+    [filters],
   );
 
   useEffect(() => {
@@ -37,7 +40,7 @@ export default function ProductPage() {
       top: 0,
       behavior: "smooth", // Para uma rolagem suave
     });
-  }, [page, filters, loadProducts]);  
+  }, [page, filters, loadProducts]);
 
   useEffect(() => {
     // Sort products based on params
@@ -55,11 +58,11 @@ export default function ProductPage() {
       handleFilterChange({ page: page - 1 });
     }
   };
-  
+
   const handleNextPage = () => {
     handleFilterChange({ page: page + 1 });
   };
-  
+
   const handleFilterChange = (newFilter) => {
     const updatedPage = newFilter.page || 1; // Verifica se o filtro contém a página
     setPage(updatedPage);
@@ -69,12 +72,12 @@ export default function ProductPage() {
   const clearFilters = async () => {
     setFilters({});
     setNoResults(false);
-    await loadProducts(1); 
-    setProds([]); 
-    setPage(1); 
-    document.getElementById("order-select").value = ""; 
-    document.getElementById("min-price").value = ""; 
-    document.getElementById("max-price").value = ""; 
+    await loadProducts(1);
+    setProds([]);
+    setPage(1);
+    document.getElementById("order-select").value = "";
+    document.getElementById("min-price").value = "";
+    document.getElementById("max-price").value = "";
   };
 
   return (
@@ -113,28 +116,30 @@ export default function ProductPage() {
         )}
 
         {!loading && (
-          <footer className="flex justify-between my-8 items-center">
+          <footer className="my-8 flex items-center justify-between">
             <button
-              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#11223a] bg-[#11223a] text-white hover:bg-[#11223a] focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-200 ease-in-out"
+              className="flex items-center gap-2 rounded-lg border border-[#11223a] bg-[#11223a] px-4 py-2 text-white transition-colors duration-200 ease-in-out hover:bg-[#11223a] focus:outline-none focus:ring-2 focus:ring-blue-300"
               onClick={handlePreviousPage}
               disabled={page === 1} // Desabilitar botão anterior na primeira página
             >
-              <ChevronLeftIcon className="w-5 h-5" />
+              <ChevronLeftIcon className="h-5 w-5" />
               Anterior
             </button>
-            <span> {page} / {totalPages} </span> {/* Exibir a página atual */}
+            <span>
+              {" "}
+              {page} / {totalPages}{" "}
+            </span>{" "}
+            {/* Exibir a página atual */}
             <button
-              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#11223a] bg-[#11223a] text-white hover:bg-[#11223a] focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-200 ease-in-out"
+              className="flex items-center gap-2 rounded-lg border border-[#11223a] bg-[#11223a] px-4 py-2 text-white transition-colors duration-200 ease-in-out hover:bg-[#11223a] focus:outline-none focus:ring-2 focus:ring-blue-300"
               onClick={handleNextPage}
               disabled={page === totalPages} // Desabilitar botão próxima na última página
             >
               Próxima
-              <ChevronRightIcon className="w-5 h-5" />
+              <ChevronRightIcon className="h-5 w-5" />
             </button>
           </footer>
         )}
-
-
       </div>
     </div>
   );

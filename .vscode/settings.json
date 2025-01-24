@@ -5,4 +5,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "git.enableSmartCommit": true,
   "git.openAfterClone": "always",
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "[typescript][typescriptreact][javascript][javascriptreact]": {
+    "editor.tabSize": 2
+  }
 }

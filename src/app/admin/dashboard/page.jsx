@@ -14,7 +14,7 @@ export default function Dashboard() {
   }, [setTitle]);
 
   return (
-    <div className="p-5 mb-5">
+    <div className="">
       <QuickAccess />
       <TopSales />
       <AnualGraph />

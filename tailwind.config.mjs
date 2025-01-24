@@ -31,4 +31,25 @@ export default {
     },
   },
   plugins: [require("daisyui")],
+  daisyui: {
+    themes: [
+      "emerald",
+      // {
+      //   fishnet: {
+      //     primary: "#EECF72", // golden yellow
+      //     secondary: "#59AED9", // light blue
+      //     accent: "#37cdbe",
+      //     neutral: "#3d4451",
+
+      //     success: "#50bf73",
+      //     info: "#72d2db",
+
+      //     "base-100": "#ced9e5",
+      //     "base-200": "#e2e8f0",
+
+      //     // "--tglgb": "#deeaf7"
+      //   },
+      // },
+    ],
+  },
 };

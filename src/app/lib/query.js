@@ -1,10 +1,11 @@
 export const API_URL = "https://fishnet-api-py.onrender.com";
 
-function parseProduct(prod) {
-  prod.id = prod._id;
-  prod.feeding = String(prod.feeding);
-  prod.tankSize = String(prod.tank_size);
-  return prod;
+export function parseProduct(product) {
+  product.id = product._id;
+  product.feeding = String(product.feeding);
+  product.tankSize = String(product.tank_size);
+  delete product._id;
+  return product;
 }
 
 function parseSale(sale) {
@@ -89,7 +90,6 @@ export async function getSalesByFilter(filters) {
     if (!result || !Array.isArray(result.match)) {
       return { sales: [], pageCount: 0 };
     }
-    //console.log(data);
     return {
       sales: result.match.map(parseSale),
       pageCount: result.page_count || 1,
@@ -134,7 +134,6 @@ export async function listProductNames(query = "", page = 1, limit = 10) {
   try {
     const response = await fetch(`${API_URL}/prods`);
     const prods = await response.json();
-    console.log("Resposta da API:", prods);
 
     // Filtra os produtos com base na query
     const filteredProds = prods.filter((prod) =>
